@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -18,11 +19,11 @@ namespace PingoMeter
             syncFromConfig();
         }
 
-        private void syncToConfig()
+        private void syncToConfig(IPAddress address)
         {
             Config.SetAll((int)delay.Value, (int)maxPing.Value,
                 setBgColor.BackColor, setGoodColor.BackColor, setNormalColor.BackColor, setBadColor.BackColor,
-                isStartUp.Checked);
+                isStartUp.Checked, address);
         }
 
         private void syncFromConfig()
@@ -36,6 +37,9 @@ namespace PingoMeter
             setBadColor.BackColor = Config.BadColor;
 
             isStartUp.Checked = Config.RunOnStartup;
+
+            if (Config.iPAddress != null)
+                ipAddress.Text = Config.iPAddress.ToString();
         }
 
         private void setBgColor_Click(object sender, EventArgs e)
@@ -72,7 +76,15 @@ namespace PingoMeter
 
         private void apply_Click(object sender, EventArgs e)
         {
-            syncToConfig();
+            // check ip address
+            IPAddress address;
+            if (!IPAddress.TryParse(ipAddress.Text, out address))
+            {
+                MessageBox.Show("Error: IP Address is invalid.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            syncToConfig(address);
             Config.Save();
             NotificationIcon.SyncFromConfig();
             Close();

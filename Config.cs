@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,8 +25,10 @@ namespace PingoMeter
 
         public static bool RunOnStartup;
 
+        public static IPAddress iPAddress;
+
         public static void SetAll(int delay, int maxPing, Color bgColor, Color goodColor,
-                                  Color normalColor,  Color badColor, bool runOnStartup)
+                                  Color normalColor,  Color badColor, bool runOnStartup, IPAddress address)
         {
             Delay = delay;
             MaxPing = maxPing;
@@ -34,17 +37,19 @@ namespace PingoMeter
             NormalColor = normalColor;
             BadColor = badColor;
             RunOnStartup = runOnStartup;
+            iPAddress = address;
         }
 
         public static void Reset()
         {
-            Delay       = 3000;
-            MaxPing     = 250;
-            BgColor     = Color.FromArgb(70, 0, 0);
-            GoodColor   = Color.FromArgb(120, 180, 0);
-            NormalColor = Color.FromArgb(255, 180, 0);
-            BadColor    = Color.FromArgb(255, 0, 0);
+            Delay        = 3000;
+            MaxPing      = 250;
+            BgColor      = Color.FromArgb(70, 0, 0);
+            GoodColor    = Color.FromArgb(120, 180, 0);
+            NormalColor  = Color.FromArgb(255, 180, 0);
+            BadColor     = Color.FromArgb(255, 0, 0);
             RunOnStartup = true;
+            iPAddress    = IPAddress.Parse("8.8.8.8");
         }
 
         public static void Load()
@@ -92,6 +97,10 @@ namespace PingoMeter
                         case nameof(RunOnStartup):
                             bool.TryParse(split[1], out RunOnStartup);
                             break;
+
+                        case nameof(iPAddress):
+                            IPAddress.TryParse(split[1], out iPAddress);
+                            break;
                         }
                     }
                 }
@@ -132,6 +141,8 @@ namespace PingoMeter
             sb.AppendLine($"{nameof(BadColor)} {BadColor.R}:{BadColor.G}:{BadColor.B}");
 
             sb.AppendLine($"{nameof(RunOnStartup)} {RunOnStartup}");
+
+            sb.AppendLine($"{nameof(iPAddress)} {iPAddress.ToString()}");
 
             File.WriteAllText(CONF_FILE_NAME, sb.ToString());
         }

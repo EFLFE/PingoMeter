@@ -45,6 +45,8 @@
             this.cancel = new System.Windows.Forms.Button();
             this.label6 = new System.Windows.Forms.Label();
             this.maxPing = new System.Windows.Forms.NumericUpDown();
+            this.label7 = new System.Windows.Forms.Label();
+            this.ipAddress = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.delay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxPing)).BeginInit();
             this.SuspendLayout();
@@ -97,7 +99,7 @@
             // isStartUp
             // 
             this.isStartUp.AutoSize = true;
-            this.isStartUp.Location = new System.Drawing.Point(12, 210);
+            this.isStartUp.Location = new System.Drawing.Point(12, 229);
             this.isStartUp.Name = "isStartUp";
             this.isStartUp.Size = new System.Drawing.Size(234, 19);
             this.isStartUp.TabIndex = 1;
@@ -108,6 +110,7 @@
             // delay
             // 
             this.delay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.delay.Font = new System.Drawing.Font("Consolas", 9F);
             this.delay.Increment = new decimal(new int[] {
             250,
             0,
@@ -125,7 +128,7 @@
             0,
             0});
             this.delay.Name = "delay";
-            this.delay.Size = new System.Drawing.Size(82, 21);
+            this.delay.Size = new System.Drawing.Size(82, 22);
             this.delay.TabIndex = 2;
             this.delay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.delay.ThousandsSeparator = true;
@@ -191,7 +194,7 @@
             // 
             // reset
             // 
-            this.reset.Location = new System.Drawing.Point(174, 254);
+            this.reset.Location = new System.Drawing.Point(236, 254);
             this.reset.Name = "reset";
             this.reset.Size = new System.Drawing.Size(75, 26);
             this.reset.TabIndex = 4;
@@ -201,7 +204,7 @@
             // 
             // cancel
             // 
-            this.cancel.Location = new System.Drawing.Point(93, 254);
+            this.cancel.Location = new System.Drawing.Point(124, 254);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(75, 26);
             this.cancel.TabIndex = 4;
@@ -221,6 +224,7 @@
             // maxPing
             // 
             this.maxPing.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.maxPing.Font = new System.Drawing.Font("Consolas", 9F);
             this.maxPing.Increment = new decimal(new int[] {
             50,
             0,
@@ -238,7 +242,7 @@
             0,
             0});
             this.maxPing.Name = "maxPing";
-            this.maxPing.Size = new System.Drawing.Size(82, 21);
+            this.maxPing.Size = new System.Drawing.Size(82, 22);
             this.maxPing.TabIndex = 2;
             this.maxPing.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.maxPing.ThousandsSeparator = true;
@@ -248,11 +252,30 @@
             0,
             0});
             // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(12, 200);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(90, 15);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Ping IP addres:";
+            // 
+            // ipAddres
+            // 
+            this.ipAddress.Font = new System.Drawing.Font("Consolas", 9F);
+            this.ipAddress.Location = new System.Drawing.Point(150, 199);
+            this.ipAddress.Name = "ipAddres";
+            this.ipAddress.Size = new System.Drawing.Size(161, 22);
+            this.ipAddress.TabIndex = 5;
+            this.ipAddress.Text = "8.8.8.8";
+            // 
             // Setting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(263, 297);
+            this.ClientSize = new System.Drawing.Size(321, 293);
+            this.Controls.Add(this.ipAddress);
             this.Controls.Add(this.reset);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.apply);
@@ -264,6 +287,7 @@
             this.Controls.Add(this.delay);
             this.Controls.Add(this.isStartUp);
             this.Controls.Add(this.label6);
+            this.Controls.Add(this.label7);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
@@ -300,5 +324,7 @@
         private System.Windows.Forms.Button cancel;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.NumericUpDown maxPing;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox ipAddress;
     }
 }

@@ -143,7 +143,6 @@ namespace PingoMeter
                 Application.SetCompatibleTextRenderingDefault(false);
 
                 bool isFirstInstance;
-                // Please use a unique name for the mutex to prevent conflicts with other programs
                 using (Mutex mtx = new Mutex(true, "PingoMeter", out isFirstInstance))
                 {
                     if (isFirstInstance)
@@ -181,7 +180,7 @@ namespace PingoMeter
                 {
                     try
                     {
-                        long t = p.Send("212.109.218.166", 9999, buffer).RoundtripTime;
+                        long t = p.Send(Config.iPAddress, 9999, buffer).RoundtripTime;
                         if (t == 0L)
                             t = maxPing;
                         self.drawGraph(t);
