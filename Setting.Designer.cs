@@ -102,7 +102,7 @@
             this.isStartUp.Location = new System.Drawing.Point(12, 229);
             this.isStartUp.Name = "isStartUp";
             this.isStartUp.Size = new System.Drawing.Size(234, 19);
-            this.isStartUp.TabIndex = 1;
+            this.isStartUp.TabIndex = 8;
             this.isStartUp.Text = "Run PingoMeter when Windows starts";
             this.isStartUp.UseVisualStyleBackColor = true;
             this.isStartUp.Visible = false;
@@ -129,7 +129,7 @@
             0});
             this.delay.Name = "delay";
             this.delay.Size = new System.Drawing.Size(82, 22);
-            this.delay.TabIndex = 2;
+            this.delay.TabIndex = 1;
             this.delay.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.delay.ThousandsSeparator = true;
             this.delay.Value = new decimal(new int[] {
@@ -156,7 +156,7 @@
             this.setGoodColor.Location = new System.Drawing.Point(150, 106);
             this.setGoodColor.Name = "setGoodColor";
             this.setGoodColor.Size = new System.Drawing.Size(23, 23);
-            this.setGoodColor.TabIndex = 3;
+            this.setGoodColor.TabIndex = 4;
             this.setGoodColor.UseVisualStyleBackColor = false;
             this.setGoodColor.Click += new System.EventHandler(this.setGoodColor_Click);
             // 
@@ -167,7 +167,7 @@
             this.setNormalColor.Location = new System.Drawing.Point(150, 135);
             this.setNormalColor.Name = "setNormalColor";
             this.setNormalColor.Size = new System.Drawing.Size(23, 23);
-            this.setNormalColor.TabIndex = 3;
+            this.setNormalColor.TabIndex = 5;
             this.setNormalColor.UseVisualStyleBackColor = false;
             this.setNormalColor.Click += new System.EventHandler(this.setNormalColor_Click);
             // 
@@ -178,7 +178,7 @@
             this.setBadColor.Location = new System.Drawing.Point(150, 164);
             this.setBadColor.Name = "setBadColor";
             this.setBadColor.Size = new System.Drawing.Size(23, 23);
-            this.setBadColor.TabIndex = 3;
+            this.setBadColor.TabIndex = 6;
             this.setBadColor.UseVisualStyleBackColor = false;
             this.setBadColor.Click += new System.EventHandler(this.setBadColor_Click);
             // 
@@ -187,7 +187,7 @@
             this.apply.Location = new System.Drawing.Point(12, 254);
             this.apply.Name = "apply";
             this.apply.Size = new System.Drawing.Size(75, 26);
-            this.apply.TabIndex = 4;
+            this.apply.TabIndex = 9;
             this.apply.Text = "Apply";
             this.apply.UseVisualStyleBackColor = true;
             this.apply.Click += new System.EventHandler(this.apply_Click);
@@ -197,7 +197,7 @@
             this.reset.Location = new System.Drawing.Point(236, 254);
             this.reset.Name = "reset";
             this.reset.Size = new System.Drawing.Size(75, 26);
-            this.reset.TabIndex = 4;
+            this.reset.TabIndex = 11;
             this.reset.Text = "Reset";
             this.reset.UseVisualStyleBackColor = true;
             this.reset.Click += new System.EventHandler(this.reset_Click);
@@ -207,7 +207,7 @@
             this.cancel.Location = new System.Drawing.Point(124, 254);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(75, 26);
-            this.cancel.TabIndex = 4;
+            this.cancel.TabIndex = 10;
             this.cancel.Text = "Cancel";
             this.cancel.UseVisualStyleBackColor = true;
             this.cancel.Click += new System.EventHandler(this.cancel_Click);
@@ -261,13 +261,13 @@
             this.label7.TabIndex = 0;
             this.label7.Text = "Ping IP addres:";
             // 
-            // ipAddres
+            // ipAddress
             // 
             this.ipAddress.Font = new System.Drawing.Font("Consolas", 9F);
             this.ipAddress.Location = new System.Drawing.Point(150, 199);
-            this.ipAddress.Name = "ipAddres";
+            this.ipAddress.Name = "ipAddress";
             this.ipAddress.Size = new System.Drawing.Size(161, 22);
-            this.ipAddress.TabIndex = 5;
+            this.ipAddress.TabIndex = 7;
             this.ipAddress.Text = "8.8.8.8";
             // 
             // Setting
