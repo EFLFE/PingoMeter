@@ -1,6 +1,6 @@
 # PingoMeter
 
-Version 0.8.0 for Windows.
+Version 0.9.0 for Windows.
 
 PingoMeter - is a small program that show your ping under Windows.
 
