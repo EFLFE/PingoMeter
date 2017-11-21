@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Setting));
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -47,14 +48,33 @@
             this.maxPing = new System.Windows.Forms.NumericUpDown();
             this.label7 = new System.Windows.Forms.Label();
             this.ipAddress = new System.Windows.Forms.TextBox();
+            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.alarmTimeOut = new System.Windows.Forms.CheckBox();
+            this.alarmResumed = new System.Windows.Forms.CheckBox();
+            this.alarmConnectionLost = new System.Windows.Forms.CheckBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.delay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxPing)).BeginInit();
+            this.tabControl1.SuspendLayout();
+            this.tabPage1.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 14);
+            this.label1.Location = new System.Drawing.Point(6, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(132, 15);
             this.label1.TabIndex = 0;
@@ -63,7 +83,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 81);
+            this.label2.Location = new System.Drawing.Point(6, 76);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(106, 15);
             this.label2.TabIndex = 0;
@@ -72,7 +92,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 110);
+            this.label3.Location = new System.Drawing.Point(6, 105);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(97, 15);
             this.label3.TabIndex = 0;
@@ -81,7 +101,7 @@
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 139);
+            this.label4.Location = new System.Drawing.Point(6, 134);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(108, 15);
             this.label4.TabIndex = 0;
@@ -90,7 +110,7 @@
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 168);
+            this.label5.Location = new System.Drawing.Point(6, 163);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(89, 15);
             this.label5.TabIndex = 0;
@@ -99,13 +119,14 @@
             // isStartUp
             // 
             this.isStartUp.AutoSize = true;
-            this.isStartUp.Location = new System.Drawing.Point(12, 229);
+            this.isStartUp.Location = new System.Drawing.Point(9, 200);
             this.isStartUp.Name = "isStartUp";
-            this.isStartUp.Size = new System.Drawing.Size(234, 19);
+            this.isStartUp.Size = new System.Drawing.Size(279, 19);
             this.isStartUp.TabIndex = 8;
-            this.isStartUp.Text = "Run PingoMeter when Windows starts";
+            this.isStartUp.Text = "(TODO) Run PingoMeter when Windows starts";
             this.isStartUp.UseVisualStyleBackColor = true;
             this.isStartUp.Visible = false;
+            this.isStartUp.CheckedChanged += new System.EventHandler(this.IsStartUp_CheckedChanged);
             // 
             // delay
             // 
@@ -116,7 +137,7 @@
             0,
             0,
             0});
-            this.delay.Location = new System.Drawing.Point(150, 12);
+            this.delay.Location = new System.Drawing.Point(144, 7);
             this.delay.Maximum = new decimal(new int[] {
             60000,
             0,
@@ -142,80 +163,80 @@
             // 
             this.setBgColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.setBgColor.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.setBgColor.Location = new System.Drawing.Point(150, 77);
+            this.setBgColor.Location = new System.Drawing.Point(144, 72);
             this.setBgColor.Name = "setBgColor";
             this.setBgColor.Size = new System.Drawing.Size(23, 23);
             this.setBgColor.TabIndex = 3;
             this.setBgColor.UseVisualStyleBackColor = false;
-            this.setBgColor.Click += new System.EventHandler(this.setBgColor_Click);
+            this.setBgColor.Click += new System.EventHandler(this.SetBgColor_Click);
             // 
             // setGoodColor
             // 
             this.setGoodColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(180)))), ((int)(((byte)(0)))));
             this.setGoodColor.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.setGoodColor.Location = new System.Drawing.Point(150, 106);
+            this.setGoodColor.Location = new System.Drawing.Point(144, 101);
             this.setGoodColor.Name = "setGoodColor";
             this.setGoodColor.Size = new System.Drawing.Size(23, 23);
             this.setGoodColor.TabIndex = 4;
             this.setGoodColor.UseVisualStyleBackColor = false;
-            this.setGoodColor.Click += new System.EventHandler(this.setGoodColor_Click);
+            this.setGoodColor.Click += new System.EventHandler(this.SetGoodColor_Click);
             // 
             // setNormalColor
             // 
             this.setNormalColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(180)))), ((int)(((byte)(0)))));
             this.setNormalColor.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.setNormalColor.Location = new System.Drawing.Point(150, 135);
+            this.setNormalColor.Location = new System.Drawing.Point(144, 130);
             this.setNormalColor.Name = "setNormalColor";
             this.setNormalColor.Size = new System.Drawing.Size(23, 23);
             this.setNormalColor.TabIndex = 5;
             this.setNormalColor.UseVisualStyleBackColor = false;
-            this.setNormalColor.Click += new System.EventHandler(this.setNormalColor_Click);
+            this.setNormalColor.Click += new System.EventHandler(this.SetNormalColor_Click);
             // 
             // setBadColor
             // 
             this.setBadColor.BackColor = System.Drawing.Color.Red;
             this.setBadColor.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.setBadColor.Location = new System.Drawing.Point(150, 164);
+            this.setBadColor.Location = new System.Drawing.Point(144, 159);
             this.setBadColor.Name = "setBadColor";
             this.setBadColor.Size = new System.Drawing.Size(23, 23);
             this.setBadColor.TabIndex = 6;
             this.setBadColor.UseVisualStyleBackColor = false;
-            this.setBadColor.Click += new System.EventHandler(this.setBadColor_Click);
+            this.setBadColor.Click += new System.EventHandler(this.SetBadColor_Click);
             // 
             // apply
             // 
-            this.apply.Location = new System.Drawing.Point(12, 254);
+            this.apply.Location = new System.Drawing.Point(12, 300);
             this.apply.Name = "apply";
             this.apply.Size = new System.Drawing.Size(75, 26);
             this.apply.TabIndex = 9;
             this.apply.Text = "Apply";
             this.apply.UseVisualStyleBackColor = true;
-            this.apply.Click += new System.EventHandler(this.apply_Click);
+            this.apply.Click += new System.EventHandler(this.Apply_Click);
             // 
             // reset
             // 
-            this.reset.Location = new System.Drawing.Point(236, 254);
+            this.reset.Location = new System.Drawing.Point(264, 300);
             this.reset.Name = "reset";
             this.reset.Size = new System.Drawing.Size(75, 26);
             this.reset.TabIndex = 11;
             this.reset.Text = "Reset";
             this.reset.UseVisualStyleBackColor = true;
-            this.reset.Click += new System.EventHandler(this.reset_Click);
+            this.reset.Click += new System.EventHandler(this.Reset_Click);
             // 
             // cancel
             // 
-            this.cancel.Location = new System.Drawing.Point(124, 254);
+            this.cancel.Location = new System.Drawing.Point(93, 300);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(75, 26);
             this.cancel.TabIndex = 10;
             this.cancel.Text = "Cancel";
             this.cancel.UseVisualStyleBackColor = true;
-            this.cancel.Click += new System.EventHandler(this.cancel_Click);
+            this.cancel.Click += new System.EventHandler(this.Cancel_Click);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 41);
+            this.label6.Location = new System.Drawing.Point(6, 36);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(103, 15);
             this.label6.TabIndex = 0;
@@ -230,9 +251,9 @@
             0,
             0,
             0});
-            this.maxPing.Location = new System.Drawing.Point(150, 39);
+            this.maxPing.Location = new System.Drawing.Point(144, 34);
             this.maxPing.Maximum = new decimal(new int[] {
-            10000,
+            5000,
             0,
             0,
             0});
@@ -255,7 +276,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 200);
+            this.label7.Location = new System.Drawing.Point(7, 7);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(90, 15);
             this.label7.TabIndex = 0;
@@ -264,44 +285,198 @@
             // ipAddress
             // 
             this.ipAddress.Font = new System.Drawing.Font("Consolas", 9F);
-            this.ipAddress.Location = new System.Drawing.Point(150, 199);
+            this.ipAddress.Location = new System.Drawing.Point(145, 6);
             this.ipAddress.Name = "ipAddress";
-            this.ipAddress.Size = new System.Drawing.Size(161, 22);
+            this.ipAddress.Size = new System.Drawing.Size(172, 22);
             this.ipAddress.TabIndex = 7;
             this.ipAddress.Text = "8.8.8.8";
+            // 
+            // tabControl1
+            // 
+            this.tabControl1.Controls.Add(this.tabPage1);
+            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Location = new System.Drawing.Point(12, 12);
+            this.tabControl1.Name = "tabControl1";
+            this.tabControl1.Padding = new System.Drawing.Point(30, 3);
+            this.tabControl1.SelectedIndex = 0;
+            this.tabControl1.Size = new System.Drawing.Size(331, 282);
+            this.tabControl1.TabIndex = 12;
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage1.Controls.Add(this.label1);
+            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.label3);
+            this.tabPage1.Controls.Add(this.label4);
+            this.tabPage1.Controls.Add(this.label5);
+            this.tabPage1.Controls.Add(this.isStartUp);
+            this.tabPage1.Controls.Add(this.setBadColor);
+            this.tabPage1.Controls.Add(this.label6);
+            this.tabPage1.Controls.Add(this.setNormalColor);
+            this.tabPage1.Controls.Add(this.delay);
+            this.tabPage1.Controls.Add(this.setGoodColor);
+            this.tabPage1.Controls.Add(this.maxPing);
+            this.tabPage1.Controls.Add(this.setBgColor);
+            this.tabPage1.Location = new System.Drawing.Point(4, 24);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(323, 254);
+            this.tabPage1.TabIndex = 0;
+            this.tabPage1.Text = "Basic";
+            // 
+            // tabPage2
+            // 
+            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Controls.Add(this.groupBox1);
+            this.tabPage2.Controls.Add(this.label7);
+            this.tabPage2.Controls.Add(this.ipAddress);
+            this.tabPage2.Location = new System.Drawing.Point(4, 24);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage2.Size = new System.Drawing.Size(323, 254);
+            this.tabPage2.TabIndex = 1;
+            this.tabPage2.Text = "Advanced";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.alarmTimeOut);
+            this.groupBox1.Controls.Add(this.alarmResumed);
+            this.groupBox1.Controls.Add(this.alarmConnectionLost);
+            this.groupBox1.Location = new System.Drawing.Point(6, 34);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(311, 93);
+            this.groupBox1.TabIndex = 10;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Alarm when:";
+            // 
+            // alarmTimeOut
+            // 
+            this.alarmTimeOut.AutoSize = true;
+            this.alarmTimeOut.Location = new System.Drawing.Point(6, 20);
+            this.alarmTimeOut.Name = "alarmTimeOut";
+            this.alarmTimeOut.Size = new System.Drawing.Size(95, 19);
+            this.alarmTimeOut.TabIndex = 9;
+            this.alarmTimeOut.Text = "Ping timeout";
+            this.alarmTimeOut.UseVisualStyleBackColor = true;
+            this.alarmTimeOut.CheckedChanged += new System.EventHandler(this.AlarmTimeOut_CheckedChanged);
+            // 
+            // alarmResued
+            // 
+            this.alarmResumed.AutoSize = true;
+            this.alarmResumed.Location = new System.Drawing.Point(6, 70);
+            this.alarmResumed.Name = "alarmResued";
+            this.alarmResumed.Size = new System.Drawing.Size(133, 19);
+            this.alarmResumed.TabIndex = 8;
+            this.alarmResumed.Text = "Connection resume";
+            this.alarmResumed.UseVisualStyleBackColor = true;
+            // 
+            // alarmConnectionLost
+            // 
+            this.alarmConnectionLost.AutoSize = true;
+            this.alarmConnectionLost.Location = new System.Drawing.Point(6, 45);
+            this.alarmConnectionLost.Name = "alarmConnectionLost";
+            this.alarmConnectionLost.Size = new System.Drawing.Size(110, 19);
+            this.alarmConnectionLost.TabIndex = 8;
+            this.alarmConnectionLost.Text = "Connection lost";
+            this.alarmConnectionLost.UseVisualStyleBackColor = true;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage3.Controls.Add(this.linkLabel1);
+            this.tabPage3.Controls.Add(this.label10);
+            this.tabPage3.Controls.Add(this.label9);
+            this.tabPage3.Controls.Add(this.textBox1);
+            this.tabPage3.Controls.Add(this.pictureBox1);
+            this.tabPage3.Location = new System.Drawing.Point(4, 24);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(323, 254);
+            this.tabPage3.TabIndex = 2;
+            this.tabPage3.Text = "About";
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(78, 46);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(134, 15);
+            this.linkLabel1.TabIndex = 4;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "Source code on GitHub";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.LinkLabel1_LinkClicked);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(78, 27);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(148, 15);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Version 0.9.0 for Windows";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label9.Location = new System.Drawing.Point(78, 8);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(81, 15);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "PingoMeter";
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
+            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.textBox1.Location = new System.Drawing.Point(3, 78);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.textBox1.Size = new System.Drawing.Size(317, 173);
+            this.textBox1.TabIndex = 1;
+            this.textBox1.Text = resources.GetString("textBox1.Text");
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Image = global::PingoMeter.Properties.Resources.op1;
+            this.pictureBox1.Location = new System.Drawing.Point(8, 8);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(64, 64);
+            this.pictureBox1.TabIndex = 0;
+            this.pictureBox1.TabStop = false;
             // 
             // Setting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(321, 293);
-            this.Controls.Add(this.ipAddress);
+            this.BackColor = System.Drawing.SystemColors.Window;
+            this.ClientSize = new System.Drawing.Size(353, 336);
+            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.reset);
             this.Controls.Add(this.cancel);
             this.Controls.Add(this.apply);
-            this.Controls.Add(this.setBadColor);
-            this.Controls.Add(this.setNormalColor);
-            this.Controls.Add(this.setGoodColor);
-            this.Controls.Add(this.setBgColor);
-            this.Controls.Add(this.maxPing);
-            this.Controls.Add(this.delay);
-            this.Controls.Add(this.isStartUp);
-            this.Controls.Add(this.label6);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Setting";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Setting";
             ((System.ComponentModel.ISupportInitialize)(this.delay)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxPing)).EndInit();
+            this.tabControl1.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tabPage2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -326,5 +501,18 @@
         private System.Windows.Forms.NumericUpDown maxPing;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.TextBox ipAddress;
+        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage2;
+        private System.Windows.Forms.CheckBox alarmTimeOut;
+        private System.Windows.Forms.CheckBox alarmConnectionLost;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox alarmResumed;
+        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

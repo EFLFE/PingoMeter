@@ -1,12 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
+using System.Diagnostics;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace PingoMeter
@@ -16,33 +10,43 @@ namespace PingoMeter
         public Setting()
         {
             InitializeComponent();
-            syncFromConfig();
+            SyncFromConfig();
         }
 
-        private void syncToConfig(IPAddress address)
+        private void SyncToConfig(IPAddress address)
         {
-            Config.SetAll((int)delay.Value, (int)maxPing.Value,
-                setBgColor.BackColor, setGoodColor.BackColor, setNormalColor.BackColor, setBadColor.BackColor,
-                isStartUp.Checked, address);
+            Config.SetAll((int)delay.Value, (int)maxPing.Value, setBgColor.BackColor, setGoodColor.BackColor,
+                setNormalColor.BackColor, setBadColor.BackColor, false, address, alarmConnectionLost.Checked,
+                alarmTimeOut.Checked, alarmResumed.Checked);
         }
 
-        private void syncFromConfig()
+        /*private bool CheckStartup()
         {
-            delay.Value = Config.Delay;
+            string sp = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
+            return Directory.Exists(sp) && File.Exists(Path.Combine(sp, "PingoMeter.lnk"));
+        }*/
+
+        private void SyncFromConfig()
+        {
+            delay.Value   = Config.Delay;
             maxPing.Value = Config.MaxPing;
 
-            setBgColor.BackColor = Config.BgColor;
-            setGoodColor.BackColor = Config.GoodColor;
-            setNormalColor.BackColor = Config.NormalColor;
-            setBadColor.BackColor = Config.BadColor;
+            setBgColor.BackColor     = Config.BgColor.Color;
+            setGoodColor.BackColor   = Config.GoodColor.Color;
+            setNormalColor.BackColor = Config.NormalColor.Color;
+            setBadColor.BackColor    = Config.BadColor.Color;
 
-            isStartUp.Checked = Config.RunOnStartup;
+            alarmTimeOut.Checked        = Config.AlarmTimeOut;
+            alarmConnectionLost.Checked = Config.AlarmConnectionLost;
+            alarmResumed.Checked        = Config.AlarmResumed;
 
-            if (Config.iPAddress != null)
-                ipAddress.Text = Config.iPAddress.ToString();
+            //isStartUp.Checked = Config.s_runOnStartup;
+
+            if (Config.TheIPAddress != null)
+                ipAddress.Text = Config.TheIPAddress.ToString();
         }
 
-        private void setBgColor_Click(object sender, EventArgs e)
+        private void SetBgColor_Click(object sender, EventArgs e)
         {
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -50,7 +54,7 @@ namespace PingoMeter
             }
         }
 
-        private void setGoodColor_Click(object sender, EventArgs e)
+        private void SetGoodColor_Click(object sender, EventArgs e)
         {
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -58,7 +62,7 @@ namespace PingoMeter
             }
         }
 
-        private void setNormalColor_Click(object sender, EventArgs e)
+        private void SetNormalColor_Click(object sender, EventArgs e)
         {
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -66,7 +70,7 @@ namespace PingoMeter
             }
         }
 
-        private void setBadColor_Click(object sender, EventArgs e)
+        private void SetBadColor_Click(object sender, EventArgs e)
         {
             if (colorDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -74,28 +78,32 @@ namespace PingoMeter
             }
         }
 
-        private void apply_Click(object sender, EventArgs e)
+        private void IsStartUp_CheckedChanged(object sender, EventArgs e)
+        {
+            //if (lockEvents)
+            // TODO IsStartUp
+        }
+
+        private void Apply_Click(object sender, EventArgs e)
         {
             // check ip address
-            IPAddress address;
-            if (!IPAddress.TryParse(ipAddress.Text, out address))
+            if (!IPAddress.TryParse(ipAddress.Text, out IPAddress address))
             {
-                MessageBox.Show("Error: IP Address is invalid.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("IP Address is invalid.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
-            syncToConfig(address);
+            SyncToConfig(address);
             Config.Save();
-            NotificationIcon.SyncFromConfig();
             Close();
         }
 
-        private void cancel_Click(object sender, EventArgs e)
+        private void Cancel_Click(object sender, EventArgs e)
         {
             Close();
         }
 
-        private void reset_Click(object sender, EventArgs e)
+        private void Reset_Click(object sender, EventArgs e)
         {
             if (MessageBox.Show(
                 "Reset all settings to default?",
@@ -105,9 +113,17 @@ namespace PingoMeter
                 == DialogResult.Yes)
             {
                 Config.Reset();
-                syncFromConfig();
-                NotificationIcon.SyncFromConfig();
+                SyncFromConfig();
             }
+        }
+
+        private void AlarmTimeOut_CheckedChanged(object sender, EventArgs e)
+        {
+        }
+
+        private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/EFLFE/PingoMeter");
         }
     }
 }

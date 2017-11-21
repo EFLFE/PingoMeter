@@ -1,91 +1,81 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Threading;
-using System.Net.NetworkInformation;
-using System.Drawing;
-using System.Windows.Forms;
-using System.IO;
-using System.Runtime.InteropServices;
 using System.Diagnostics;
+using System.Drawing;
+using System.IO;
+using System.Net.NetworkInformation;
+using System.Runtime.InteropServices;
+using System.Threading;
+using System.Windows.Forms;
 
 namespace PingoMeter
 {
     public sealed class NotificationIcon
     {
         private static Setting settingWindow;
-
-        private static int maxPing = 250;
-        private static int delay = 3000;
+        private const int BALLOON_TIP_TIME_OUT = 3000;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         extern static bool DestroyIcon(IntPtr handle);
-        private static IntPtr Hicon;
-
-        private static Pen bgColor;
-        private static Pen goodPing;
-        private static Pen normalPing;
-        private static Pen badPing;
+        private static IntPtr hicon;
 
         private static NotificationIcon self;
 
         private NotifyIcon notifyIcon;
         private ContextMenu notificationMenu;
 
-        private IntPtr HiconOriginal;
+        private IntPtr hiconOriginal;
         private Image originalImage;
         private Bitmap drawable;
         private Graphics g;
+
+        private enum AlarmEnum
+        {
+            None,
+            ConnectionLost,
+            TimeOut,
+            Resumed,
+            OK
+        }
+        private static AlarmEnum alarmStatus = AlarmEnum.None;
 
         public NotificationIcon()
         {
             self = this;
 
             Config.Load();
-            SyncFromConfig();
 
             notifyIcon = new NotifyIcon();
             notificationMenu = new ContextMenu(InitializeMenu());
 
             originalImage = Image.FromFile("Resources\\none.png");
             drawable = Properties.Resources.none;
-            HiconOriginal = Properties.Resources.none.GetHicon();
+            hiconOriginal = Properties.Resources.none.GetHicon();
 
             g = Graphics.FromImage(drawable);
 
-            setIcon();
+            SetIcon();
             notifyIcon.ContextMenu = notificationMenu;
         }
 
         ~NotificationIcon()
         {
-            DestroyIcon(Hicon);
-            DestroyIcon(HiconOriginal);
+            DestroyIcon(hicon);
+            DestroyIcon(hiconOriginal);
             g.Dispose();
         }
 
-        public static void SyncFromConfig()
+        private void SetIcon()
         {
-            maxPing = Config.MaxPing;
-            delay = Config.Delay;
-
-            bgColor = new Pen(Config.BgColor);
-            goodPing = new Pen(Config.GoodColor);
-            normalPing = new Pen(Config.NormalColor);
-            badPing = new Pen(Config.BadColor);
+            hicon = drawable.GetHicon();
+            notifyIcon.Icon = Icon.FromHandle(hicon);
+            DestroyIcon(hicon);
         }
 
-        private void setIcon()
-        {
-            Hicon = drawable.GetHicon();
-            notifyIcon.Icon = Icon.FromHandle(Hicon);
-            DestroyIcon(Hicon);
-        }
-
-        private void drawGraph(long value)
+        private void DrawGraph(long value)
         {
             if (value == -1)
             {
-                notifyIcon.Icon = Icon.FromHandle(HiconOriginal);
+                notifyIcon.Icon = Icon.FromHandle(hiconOriginal);
                 return;
             }
             if (value == 0L)
@@ -98,38 +88,38 @@ namespace PingoMeter
                 notifyIcon.Text = "Ping: " + value;
 
                 // from 1 to 15
-                if (value > maxPing)
+                if (value > Config.MaxPing)
                 {
-                    value = maxPing;
+                    value = Config.MaxPing;
                 }
-                float newValue = value * 14f / maxPing + 1f;
+                float newValue = value * 14f / Config.MaxPing + 1f;
 
-                g.DrawLine(bgColor, 15, 15, 15, 1);
+                g.DrawLine(Config.BgColor, 15, 15, 15, 1);
 
-                if (value < maxPing / 3)
+                if (value < Config.MaxPing / 3)
                 {
-                    g.DrawLine(goodPing, 15, 15, 15, 15 - newValue);
+                    g.DrawLine(Config.GoodColor, 15, 15, 15, 15 - newValue);
                 }
-                else if (value < maxPing / 2)
+                else if (value < Config.MaxPing / 2)
                 {
-                    g.DrawLine(normalPing, 15, 15, 15, 15 - newValue);
+                    g.DrawLine(Config.NormalColor, 15, 15, 15, 15 - newValue);
                 }
                 else
                 {
-                    g.DrawLine(badPing, 15, 15, 15, 15 - newValue);
+                    g.DrawLine(Config.BadColor, 15, 15, 15, 15 - newValue);
                 }
             }
 
             g.DrawImage(drawable, -1f, 0f);
             g.DrawRectangle(Pens.Black, 0, 0, 15, 15);
-            setIcon();
+            SetIcon();
         }
 
         private MenuItem[] InitializeMenu()
         {
             MenuItem[] menu = new MenuItem[] {
-                new MenuItem("Setting", menuSetting),
-                new MenuItem("Exit", menuExitClick)
+                new MenuItem("Setting", MenuSetting),
+                new MenuItem("Exit", MenuExitClick)
             };
             return menu;
         }
@@ -142,15 +132,14 @@ namespace PingoMeter
                 Application.EnableVisualStyles();
                 Application.SetCompatibleTextRenderingDefault(false);
 
-                bool isFirstInstance;
-                using (Mutex mtx = new Mutex(true, "PingoMeter", out isFirstInstance))
+                using (Mutex mtx = new Mutex(true, "PingoMeter", out bool isFirstInstance))
                 {
                     if (isFirstInstance)
                     {
                         NotificationIcon notificationIcon = new NotificationIcon();
                         notificationIcon.notifyIcon.Visible = true;
 
-                        ThreadPool.QueueUserWorkItem(pingPool, null);
+                        ThreadPool.QueueUserWorkItem(PingPool, null);
 
                         Application.Run();
                         notificationIcon.notifyIcon.Dispose();
@@ -168,45 +157,82 @@ namespace PingoMeter
             }
         }
 
-        private static void pingPool(object nil)
+        // Ping here
+        private static void PingPool(object nil)
         {
             Thread.Sleep(999);
             try
             {
                 Ping p = new Ping();
-                var buffer = new byte[4];
+                byte[] buffer = new byte[4];
 
                 while (true)
                 {
                     try
                     {
-                        long t = p.Send(Config.iPAddress, 9999, buffer).RoundtripTime;
-                        if (t == 0L)
-                            t = maxPing;
-                        self.drawGraph(t);
+                        PingReply reply = p.Send(Config.TheIPAddress, 5000, buffer);
+                        long t = reply.RoundtripTime;
+
+                        switch (reply.Status)
+                        {
+                            case IPStatus.TimedOut:
+                                self.DrawGraph(-1L);
+                                self.notifyIcon.Text = "Status: Time out.";
+
+                                if (alarmStatus == AlarmEnum.OK && Config.AlarmTimeOut)
+                                    self.notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", "Ping time out", ToolTipIcon.Warning);
+
+                                alarmStatus = AlarmEnum.TimeOut;
+                                break;
+
+                            default:
+                                self.DrawGraph(t);
+
+                                if (alarmStatus != AlarmEnum.None && alarmStatus != AlarmEnum.OK && Config.AlarmResumed)
+                                    self.notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", "Ping resumed", ToolTipIcon.Info);
+
+                                alarmStatus = AlarmEnum.OK;
+                                break;
+                        }
+                    }
+                    catch (PingException)
+                    {
+                        self.DrawGraph(-1L);
+                        self.notifyIcon.Text = "Status: Connection lost.";
+
+                        if (alarmStatus == AlarmEnum.OK && Config.AlarmConnectionLost)
+                            self.notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", "Connection lost.", ToolTipIcon.Error);
+
+                        alarmStatus = AlarmEnum.ConnectionLost;
                     }
                     catch (Exception ex)
                     {
-                        self.drawGraph(-1L);
+                        self.DrawGraph(-1L);
                         self.notifyIcon.Text = ex.Message;
+                        self.notifyIcon.Text = "Status: Error.";
+
+                        self.notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", "Error: " + ex.Message, ToolTipIcon.Error);
+
+                        alarmStatus = AlarmEnum.None;
                     }
 
-                    Thread.Sleep(delay);
+                    Thread.Sleep(Config.Delay);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.ToString(), ex.Message);
+                MessageBox.Show(ex.ToString(), "PingoMeter crash message");
+                alarmStatus = AlarmEnum.None;
             }
         }
 
         // Event Handlers
-        private void menuExitClick(object sender, EventArgs e)
+        private void MenuExitClick(object sender, EventArgs e)
         {
             Application.Exit();
         }
 
-        private void menuSetting(object sender, EventArgs e)
+        private void MenuSetting(object sender, EventArgs e)
         {
             if (settingWindow == null)
             {
@@ -215,7 +241,8 @@ namespace PingoMeter
                 settingWindow.Dispose();
                 settingWindow = null;
             }
-            else settingWindow.Focus();
+            else
+                settingWindow.Focus();
         }
 
     }
