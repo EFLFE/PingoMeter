@@ -76,7 +76,7 @@ namespace PingoMeter
                     if (string.IsNullOrWhiteSpace(conf[i]) || conf[i].Trim()[0] == '#')
                         continue;
 
-                    string line = conf[i].Trim().ToLower();
+                    string line = conf[i].Trim();
                     string[] split = line.Split(new char[] { ' ' }, 2);
 
                     if (split.Length == 2)
