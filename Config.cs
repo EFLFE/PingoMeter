@@ -39,12 +39,12 @@ namespace PingoMeter
         {
             Delay               = delay;
             MaxPing             = maxPing;
-            Config.BgColor             = new Pen(bgColor);
+            BgColor             = new Pen(bgColor);
             GoodColor           = new Pen(goodColor);
             NormalColor         = new Pen(normalColor);
             BadColor            = new Pen(badColor);
             RunOnStartup        = runOnStartup;
-            TheIPAddress           = address;
+            TheIPAddress        = address;
             AlarmConnectionLost = alarmConnectionLost;
             AlarmTimeOut        = alarmTimeOut;
             AlarmResumed        = alarmResumed;
@@ -59,7 +59,7 @@ namespace PingoMeter
             NormalColor         = new Pen(Color.FromArgb(255, 180, 0));
             BadColor            = new Pen(Color.FromArgb(255, 0, 0));
             RunOnStartup        = true;
-            TheIPAddress        = IPAddress.Parse("8.8.8.8");
+            TheIPAddress        = IPAddress.Parse("8.8.8.8"); // google ip
             AlarmConnectionLost = false;
             AlarmTimeOut        = false;
             AlarmResumed        = false;
@@ -85,8 +85,6 @@ namespace PingoMeter
                         {
                             case nameof(Delay):
                                 int.TryParse(split[1], out Delay);
-                                if (Delay < 500)
-                                    Delay = 500;
                                 break;
 
                             case nameof(MaxPing):

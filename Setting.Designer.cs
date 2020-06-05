@@ -34,7 +34,6 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
-            this.isStartUp = new System.Windows.Forms.CheckBox();
             this.delay = new System.Windows.Forms.NumericUpDown();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.setBgColor = new System.Windows.Forms.Button();
@@ -59,7 +58,6 @@
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label10 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.delay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxPing)).BeginInit();
@@ -116,18 +114,6 @@
             this.label5.TabIndex = 0;
             this.label5.Text = "Bad ping color:";
             // 
-            // isStartUp
-            // 
-            this.isStartUp.AutoSize = true;
-            this.isStartUp.Location = new System.Drawing.Point(9, 200);
-            this.isStartUp.Name = "isStartUp";
-            this.isStartUp.Size = new System.Drawing.Size(279, 19);
-            this.isStartUp.TabIndex = 8;
-            this.isStartUp.Text = "(TODO) Run PingoMeter when Windows starts";
-            this.isStartUp.UseVisualStyleBackColor = true;
-            this.isStartUp.Visible = false;
-            this.isStartUp.CheckedChanged += new System.EventHandler(this.IsStartUp_CheckedChanged);
-            // 
             // delay
             // 
             this.delay.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -163,6 +149,7 @@
             // 
             this.setBgColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.setBgColor.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.setBgColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.setBgColor.Location = new System.Drawing.Point(144, 72);
             this.setBgColor.Name = "setBgColor";
             this.setBgColor.Size = new System.Drawing.Size(23, 23);
@@ -174,6 +161,7 @@
             // 
             this.setGoodColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(180)))), ((int)(((byte)(0)))));
             this.setGoodColor.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.setGoodColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.setGoodColor.Location = new System.Drawing.Point(144, 101);
             this.setGoodColor.Name = "setGoodColor";
             this.setGoodColor.Size = new System.Drawing.Size(23, 23);
@@ -185,6 +173,7 @@
             // 
             this.setNormalColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(180)))), ((int)(((byte)(0)))));
             this.setNormalColor.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.setNormalColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.setNormalColor.Location = new System.Drawing.Point(144, 130);
             this.setNormalColor.Name = "setNormalColor";
             this.setNormalColor.Size = new System.Drawing.Size(23, 23);
@@ -196,6 +185,7 @@
             // 
             this.setBadColor.BackColor = System.Drawing.Color.Red;
             this.setBadColor.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.setBadColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.setBadColor.Location = new System.Drawing.Point(144, 159);
             this.setBadColor.Name = "setBadColor";
             this.setBadColor.Size = new System.Drawing.Size(23, 23);
@@ -205,7 +195,7 @@
             // 
             // apply
             // 
-            this.apply.Location = new System.Drawing.Point(12, 300);
+            this.apply.Location = new System.Drawing.Point(12, 241);
             this.apply.Name = "apply";
             this.apply.Size = new System.Drawing.Size(75, 26);
             this.apply.TabIndex = 9;
@@ -215,7 +205,7 @@
             // 
             // reset
             // 
-            this.reset.Location = new System.Drawing.Point(264, 300);
+            this.reset.Location = new System.Drawing.Point(264, 241);
             this.reset.Name = "reset";
             this.reset.Size = new System.Drawing.Size(75, 26);
             this.reset.TabIndex = 11;
@@ -225,7 +215,7 @@
             // 
             // cancel
             // 
-            this.cancel.Location = new System.Drawing.Point(93, 300);
+            this.cancel.Location = new System.Drawing.Point(93, 241);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(75, 26);
             this.cancel.TabIndex = 10;
@@ -300,7 +290,7 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(30, 3);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(331, 282);
+            this.tabControl1.Size = new System.Drawing.Size(331, 223);
             this.tabControl1.TabIndex = 12;
             // 
             // tabPage1
@@ -311,7 +301,6 @@
             this.tabPage1.Controls.Add(this.label3);
             this.tabPage1.Controls.Add(this.label4);
             this.tabPage1.Controls.Add(this.label5);
-            this.tabPage1.Controls.Add(this.isStartUp);
             this.tabPage1.Controls.Add(this.setBadColor);
             this.tabPage1.Controls.Add(this.label6);
             this.tabPage1.Controls.Add(this.setNormalColor);
@@ -322,7 +311,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(323, 254);
+            this.tabPage1.Size = new System.Drawing.Size(323, 195);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Basic";
             // 
@@ -335,7 +324,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(323, 254);
+            this.tabPage2.Size = new System.Drawing.Size(323, 195);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Advanced";
             // 
@@ -362,11 +351,11 @@
             this.alarmTimeOut.UseVisualStyleBackColor = true;
             this.alarmTimeOut.CheckedChanged += new System.EventHandler(this.AlarmTimeOut_CheckedChanged);
             // 
-            // alarmResued
+            // alarmResumed
             // 
             this.alarmResumed.AutoSize = true;
             this.alarmResumed.Location = new System.Drawing.Point(6, 70);
-            this.alarmResumed.Name = "alarmResued";
+            this.alarmResumed.Name = "alarmResumed";
             this.alarmResumed.Size = new System.Drawing.Size(133, 19);
             this.alarmResumed.TabIndex = 8;
             this.alarmResumed.Text = "Connection resume";
@@ -388,11 +377,10 @@
             this.tabPage3.Controls.Add(this.linkLabel1);
             this.tabPage3.Controls.Add(this.label10);
             this.tabPage3.Controls.Add(this.label9);
-            this.tabPage3.Controls.Add(this.textBox1);
             this.tabPage3.Controls.Add(this.pictureBox1);
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(323, 254);
+            this.tabPage3.Size = new System.Drawing.Size(323, 195);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "About";
             // 
@@ -412,9 +400,9 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(78, 27);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(148, 15);
+            this.label10.Size = new System.Drawing.Size(78, 15);
             this.label10.TabIndex = 3;
-            this.label10.Text = "Version 0.9.0 for Windows";
+            this.label10.Text = "Version 0.9.2";
             // 
             // label9
             // 
@@ -425,19 +413,6 @@
             this.label9.Size = new System.Drawing.Size(81, 15);
             this.label9.TabIndex = 2;
             this.label9.Text = "PingoMeter";
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.Control;
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.textBox1.Location = new System.Drawing.Point(3, 78);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(317, 173);
-            this.textBox1.TabIndex = 1;
-            this.textBox1.Text = resources.GetString("textBox1.Text");
             // 
             // pictureBox1
             // 
@@ -453,7 +428,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(353, 336);
+            this.ClientSize = new System.Drawing.Size(353, 280);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.reset);
             this.Controls.Add(this.cancel);
@@ -487,7 +462,6 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.CheckBox isStartUp;
         private System.Windows.Forms.NumericUpDown delay;
         private System.Windows.Forms.ColorDialog colorDialog1;
         private System.Windows.Forms.Button setBgColor;
@@ -512,7 +486,6 @@
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

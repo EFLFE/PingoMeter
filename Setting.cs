@@ -15,16 +15,19 @@ namespace PingoMeter
 
         private void SyncToConfig(IPAddress address)
         {
-            Config.SetAll((int)delay.Value, (int)maxPing.Value, setBgColor.BackColor, setGoodColor.BackColor,
-                setNormalColor.BackColor, setBadColor.BackColor, false, address, alarmConnectionLost.Checked,
-                alarmTimeOut.Checked, alarmResumed.Checked);
+            Config.SetAll(
+                delay: (int)delay.Value,
+                maxPing: (int)maxPing.Value,
+                bgColor: setBgColor.BackColor,
+                goodColor: setGoodColor.BackColor,
+                normalColor: setNormalColor.BackColor,
+                badColor: setBadColor.BackColor,
+                runOnStartup: false,
+                address: address,
+                alarmConnectionLost: alarmConnectionLost.Checked,
+                alarmTimeOut: alarmTimeOut.Checked,
+                alarmResumed: alarmResumed.Checked);
         }
-
-        /*private bool CheckStartup()
-        {
-            string sp = Environment.GetFolderPath(Environment.SpecialFolder.Startup);
-            return Directory.Exists(sp) && File.Exists(Path.Combine(sp, "PingoMeter.lnk"));
-        }*/
 
         private void SyncFromConfig()
         {
