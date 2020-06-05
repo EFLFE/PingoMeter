@@ -5,8 +5,6 @@ using System.Text;
 
 namespace PingoMeter
 {
-    // config data mem
-    // TODO: more compact
     internal static class Config
     {
         private const string CONF_FILE_NAME = "config.txt";

@@ -81,12 +81,6 @@ namespace PingoMeter
             }
         }
 
-        private void IsStartUp_CheckedChanged(object sender, EventArgs e)
-        {
-            //if (lockEvents)
-            // TODO IsStartUp
-        }
-
         private void Apply_Click(object sender, EventArgs e)
         {
             // check ip address
@@ -118,10 +112,6 @@ namespace PingoMeter
                 Config.Reset();
                 SyncFromConfig();
             }
-        }
-
-        private void AlarmTimeOut_CheckedChanged(object sender, EventArgs e)
-        {
         }
 
         private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

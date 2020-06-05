@@ -10,7 +10,6 @@ namespace PingoMeter
     internal sealed class NotificationIcon
     {
         const int BALLOON_TIP_TIME_OUT = 3000;
-        Setting settingWindow;
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         extern static bool DestroyIcon(IntPtr handle);
@@ -105,19 +104,16 @@ namespace PingoMeter
                 float newValue = value * 14f / Config.MaxPing + 1f;
 
                 g.DrawLine(Config.BgColor, 15, 15, 15, 1);
+                Pen pen;
 
                 if (value < Config.MaxPing / 3)
-                {
-                    g.DrawLine(Config.GoodColor, 15, 15, 15, 15 - newValue);
-                }
+                    pen = Config.GoodColor;
                 else if (value < Config.MaxPing / 2)
-                {
-                    g.DrawLine(Config.NormalColor, 15, 15, 15, 15 - newValue);
-                }
+                    pen = Config.NormalColor;
                 else
-                {
-                    g.DrawLine(Config.BadColor, 15, 15, 15, 15 - newValue);
-                }
+                    pen = Config.BadColor;
+
+                g.DrawLine(pen, 15, 15, 15, 15 - newValue);
             }
 
             g.DrawImage(drawable, -1f, 0f);
@@ -224,15 +220,7 @@ namespace PingoMeter
 
         private void MenuSetting(object sender, EventArgs e)
         {
-            if (settingWindow == null)
-            {
-                settingWindow = new Setting();
-                settingWindow.ShowDialog();
-                settingWindow.Dispose();
-                settingWindow = null;
-            }
-            else
-                settingWindow.Focus();
+            new Setting().ShowDialog();
         }
 
     }

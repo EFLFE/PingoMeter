@@ -349,7 +349,6 @@
             this.alarmTimeOut.TabIndex = 9;
             this.alarmTimeOut.Text = "Ping timeout";
             this.alarmTimeOut.UseVisualStyleBackColor = true;
-            this.alarmTimeOut.CheckedChanged += new System.EventHandler(this.AlarmTimeOut_CheckedChanged);
             // 
             // alarmResumed
             // 
