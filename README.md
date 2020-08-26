@@ -1,6 +1,6 @@
 # PingoMeter
 
-PingoMeter - is a small program that show your ping under Windows.
+PingoMeter - is a small program that show your ping in Windows system tray.
 
 ![](https://i.imgur.com/fOkYpSf.png)
 
