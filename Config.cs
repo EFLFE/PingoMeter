@@ -20,16 +20,26 @@ namespace PingoMeter
 
         public static bool RunOnStartup; // TODO RunOnStartup
 
-        public static IPAddress TheIPAddress;
+        private static string ipName;
+        private static IPAddress ipAddress;
+
+        public static IPAddress TheIPAddress
+        {
+            get => ipAddress;
+            set
+            {
+                ipAddress = value;
+                ipName = value.ToString();
+            }
+        }
+
+        public static string GetIPName => ipName;
 
         public static bool AlarmConnectionLost;
         public static bool AlarmTimeOut;
         public static bool AlarmResumed;
 
-        static Config()
-        {
-            Reset();
-        }
+        static Config() => Reset();
 
         public static void SetAll(int delay, int maxPing, Color bgColor, Color goodColor, Color normalColor,
                                   Color badColor, bool runOnStartup, IPAddress address,
@@ -111,7 +121,8 @@ namespace PingoMeter
 
                             case "ipaddress":
                             case nameof(TheIPAddress):
-                                IPAddress.TryParse(split[1], out TheIPAddress);
+                                if (IPAddress.TryParse(split[1], out IPAddress ip))
+                                    TheIPAddress = ip;
                                 break;
 
                             case nameof(AlarmConnectionLost):

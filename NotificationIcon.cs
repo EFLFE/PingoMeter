@@ -20,6 +20,7 @@ namespace PingoMeter
 
         IntPtr hiconOriginal;
         Image originalImage;
+        Icon noneIcon;
         Bitmap drawable;
         Graphics g;
 
@@ -55,6 +56,7 @@ namespace PingoMeter
             originalImage = Image.FromFile("Resources\\none.png");
             drawable = Properties.Resources.none;
             hiconOriginal = Properties.Resources.none.GetHicon();
+            noneIcon = Icon.FromHandle(hiconOriginal);
             g = Graphics.FromImage(drawable);
             SetIcon();
         }
@@ -84,12 +86,11 @@ namespace PingoMeter
         {
             if (value < 0)
             {
-                notifyIcon.Icon = Icon.FromHandle(hiconOriginal);
-                notifyIcon.Text = "Ping: none";
+                notifyIcon.Icon = noneIcon;
             }
             else
             {
-                notifyIcon.Text = "Ping: " + value;
+                notifyIcon.Text = $"Ping [{Config.GetIPName}]: {value.ToString()}";
 
                 // from 1 to 15
                 value = Math.Min(value, Config.MaxPing);
@@ -106,11 +107,10 @@ namespace PingoMeter
                     pen = Config.BadColor;
 
                 g.DrawLine(pen, 15, 15, 15, 15 - newValue);
+                g.DrawImage(drawable, -1f, 0f);
+                g.DrawRectangle(Pens.Black, 0, 0, 15, 15);
+                SetIcon();
             }
-
-            g.DrawImage(drawable, -1f, 0f);
-            g.DrawRectangle(Pens.Black, 0, 0, 15, 15);
-            SetIcon();
         }
 
         // Ping on thread pool
@@ -161,8 +161,7 @@ namespace PingoMeter
                                 }
                                 break;
 
-                            default:
-                                // OK. В остальных случиях получим исключение
+                            case IPStatus.Success:
                                 DrawGraph(reply.RoundtripTime);
 
                                 if (alarmStatus != AlarmEnum.None && alarmStatus != AlarmEnum.OK && Config.AlarmResumed)
@@ -171,6 +170,17 @@ namespace PingoMeter
                                 alarmStatus = AlarmEnum.OK;
                                 timeOutAgain = false;
                                 break;
+
+                            default:
+                                DrawGraph(-1L);
+                                var statusName = GetIPStatusName(reply.Status);
+                                notifyIcon.Text = "Status: " + statusName;
+
+                                if (alarmStatus != AlarmEnum.ConnectionLost && Config.AlarmConnectionLost)
+                                    notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", statusName, ToolTipIcon.Error);
+
+                                alarmStatus = AlarmEnum.ConnectionLost;
+                                break;
                         }
                     }
                     catch (PingException)
@@ -178,7 +188,7 @@ namespace PingoMeter
                         DrawGraph(-1L);
                         notifyIcon.Text = "Status: Connection lost.";
 
-                        if (alarmStatus == AlarmEnum.OK && Config.AlarmConnectionLost)
+                        if (alarmStatus != AlarmEnum.ConnectionLost && Config.AlarmConnectionLost)
                             notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", "Connection lost", ToolTipIcon.Error);
 
                         alarmStatus = AlarmEnum.ConnectionLost;
@@ -214,6 +224,81 @@ namespace PingoMeter
         private void MenuSetting(object sender, EventArgs e)
         {
             new Setting().ShowDialog();
+        }
+
+        private string GetIPStatusName(IPStatus status)
+        {
+            switch (status)
+            {
+                case IPStatus.DestinationNetworkUnreachable:
+                    return "Destination network unreachable";
+
+                case IPStatus.DestinationHostUnreachable:
+                    return "Destination host unreachable";
+
+                case IPStatus.DestinationProtocolUnreachable:
+                    return "Destination protocol unreachable";
+
+                case IPStatus.DestinationPortUnreachable:
+                    return "Destination port unreachable";
+
+                //case IPStatus.DestinationProhibited:
+                //    return "";
+
+                case IPStatus.NoResources:
+                    return "No resources";
+
+                case IPStatus.BadOption:
+                    return "Bad option";
+
+                case IPStatus.HardwareError:
+                    return "Hardware error";
+
+                case IPStatus.PacketTooBig:
+                    return "Packet too big";
+
+                case IPStatus.TimedOut:
+                    return "Timed out";
+
+                case IPStatus.BadRoute:
+                    return "Bad route";
+
+                case IPStatus.TtlExpired:
+                    return "TTL expired";
+
+                case IPStatus.TtlReassemblyTimeExceeded:
+                    return "TTL reassembly time exceeded";
+
+                case IPStatus.ParameterProblem:
+                    return "Parameter problem";
+
+                case IPStatus.SourceQuench:
+                    return "Source quench";
+
+                case IPStatus.BadDestination:
+                    return "Bad destination";
+
+                case IPStatus.DestinationUnreachable:
+                    return "Destination unreachable";
+
+                case IPStatus.TimeExceeded:
+                    return "Time exceeded";
+
+                case IPStatus.BadHeader:
+                    return "Bad header";
+
+                case IPStatus.UnrecognizedNextHeader:
+                    return "Unrecognized next header";
+
+                case IPStatus.IcmpError:
+                    return "ICMP error";
+
+                case IPStatus.DestinationScopeMismatch:
+                    return "Destination scope mismatch";
+
+                default:
+                    return status.ToString();
+            }
         }
 
     }
