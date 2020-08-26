@@ -82,14 +82,9 @@ namespace PingoMeter
 
         private void DrawGraph(long value)
         {
-            if (value == -1)
+            if (value < 0)
             {
                 notifyIcon.Icon = Icon.FromHandle(hiconOriginal);
-                return;
-            }
-            if (value == 0L)
-            {
-                //g.DrawLine(Pens.Black, 15, 15, 15, 1);
                 notifyIcon.Text = "Ping: none";
             }
             else
@@ -97,10 +92,7 @@ namespace PingoMeter
                 notifyIcon.Text = "Ping: " + value;
 
                 // from 1 to 15
-                if (value > Config.MaxPing)
-                {
-                    value = Config.MaxPing;
-                }
+                value = Math.Min(value, Config.MaxPing);
                 float newValue = value * 14f / Config.MaxPing + 1f;
 
                 g.DrawLine(Config.BgColor, 15, 15, 15, 1);
@@ -135,7 +127,7 @@ namespace PingoMeter
                 // Так что нужно проверять дважды.
                 bool timeOutAgain = false;
 
-                while (true)
+                for (; ; )
                 {
                     try
                     {
@@ -215,6 +207,7 @@ namespace PingoMeter
         // Event Handlers
         private void MenuExitClick(object sender, EventArgs e)
         {
+            notifyIcon.Visible = false;
             Application.Exit();
         }
 
