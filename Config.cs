@@ -39,11 +39,14 @@ namespace PingoMeter
         public static bool AlarmTimeOut;
         public static bool AlarmResumed;
 
+        /// <summary> Use numbers for the ping instead of a graph. </summary>
+        public static bool UseNumbers;
+
         static Config() => Reset();
 
         public static void SetAll(int delay, int maxPing, Color bgColor, Color goodColor, Color normalColor,
                                   Color badColor, bool runOnStartup, IPAddress address,
-                                  bool alarmConnectionLost, bool alarmTimeOut, bool alarmResumed)
+                                  bool alarmConnectionLost, bool alarmTimeOut, bool alarmResumed, bool useNumbers)
         {
             Delay               = delay;
             MaxPing             = maxPing;
@@ -56,6 +59,7 @@ namespace PingoMeter
             AlarmConnectionLost = alarmConnectionLost;
             AlarmTimeOut        = alarmTimeOut;
             AlarmResumed        = alarmResumed;
+            UseNumbers          = useNumbers;
         }
 
         public static void Reset()
@@ -71,6 +75,7 @@ namespace PingoMeter
             AlarmConnectionLost = false;
             AlarmTimeOut        = false;
             AlarmResumed        = false;
+            UseNumbers          = false;
         }
 
         public static void Load()
@@ -136,6 +141,10 @@ namespace PingoMeter
                             case nameof(AlarmResumed):
                                 bool.TryParse(split[1], out AlarmResumed);
                                 break;
+
+                            case nameof(UseNumbers):
+                                bool.TryParse(split[1], out UseNumbers);
+                                break;
                         }
                     }
                 }
@@ -182,6 +191,7 @@ namespace PingoMeter
             sb.AppendLine($"{nameof(AlarmConnectionLost)} {AlarmConnectionLost}");
             sb.AppendLine($"{nameof(AlarmTimeOut)} {AlarmTimeOut}");
             sb.AppendLine($"{nameof(AlarmResumed)} {AlarmResumed}");
+            sb.AppendLine($"{nameof(UseNumbers)} {UseNumbers}");
 
             File.WriteAllText(CONF_FILE_NAME, sb.ToString());
         }

@@ -23,6 +23,14 @@ namespace PingoMeter
         Icon noneIcon;
         Bitmap drawable;
         Graphics g;
+        Font font;
+
+        enum PingHealthEnum
+        {
+            Good,
+            Normal,
+            Bad
+        }
 
         enum AlarmEnum
         {
@@ -58,6 +66,7 @@ namespace PingoMeter
             hiconOriginal = Properties.Resources.none.GetHicon();
             noneIcon = Icon.FromHandle(hiconOriginal);
             g = Graphics.FromImage(drawable);
+            font = new Font("Consolas", 9f, FontStyle.Bold);
             SetIcon();
         }
 
@@ -92,24 +101,91 @@ namespace PingoMeter
             {
                 notifyIcon.Text = $"Ping [{Config.GetIPName}]: {value.ToString()}";
 
-                // from 1 to 15
-                value = Math.Min(value, Config.MaxPing);
-                float newValue = value * 14f / Config.MaxPing + 1f;
-
-                g.DrawLine(Config.BgColor, 15, 15, 15, 1);
-                Pen pen;
+                var pingHealth = PingHealthEnum.Bad;
 
                 if (value < Config.MaxPing / 3)
-                    pen = Config.GoodColor;
+                    pingHealth = PingHealthEnum.Good;
                 else if (value < Config.MaxPing / 2)
-                    pen = Config.NormalColor;
-                else
-                    pen = Config.BadColor;
+                    pingHealth = PingHealthEnum.Normal;
 
-                g.DrawLine(pen, 15, 15, 15, 15 - newValue);
-                g.DrawImage(drawable, -1f, 0f);
-                g.DrawRectangle(Pens.Black, 0, 0, 15, 15);
-                SetIcon();
+                if (Config.UseNumbers)
+                {
+                    Brush bgBrush = null;
+                    Brush fontBrush = null;
+
+                    /*
+                    if(value>99)
+                    {
+                        bgBrush = Brushes.Red;
+                        fontBrush = Brushes.Black;
+                    }
+                    else if(value >= 50)
+                    {
+                        bgBrush = Brushes.Orange;
+                        fontBrush = Brushes.Black;
+                    }
+                    else
+                    {
+                        bgBrush = Brushes.Green;
+                        fontBrush = Brushes.White;
+                    }
+                     */
+
+                    switch (pingHealth)
+                    {
+                        case PingHealthEnum.Good:
+                            bgBrush = Brushes.Green;
+                            fontBrush = Brushes.White;
+                            break;
+
+                        case PingHealthEnum.Normal:
+                            bgBrush = Brushes.Orange;
+                            fontBrush = Brushes.Black;
+                            break;
+
+                        case PingHealthEnum.Bad:
+                            bgBrush = Brushes.Red;
+                            fontBrush = Brushes.Black;
+                            break;
+                    }
+
+                    if (value > 99)
+                        value = 99;
+
+                    g.FillRectangle(bgBrush, 0, 0, 16, 16);
+                    g.DrawString(value.ToString(), font, fontBrush, -1, 1);
+                    SetIcon();
+                }
+                else
+                {
+                    Pen lineColor = null;
+
+                    switch (pingHealth)
+                    {
+                        case PingHealthEnum.Good:
+                            lineColor = Config.GoodColor;
+                            break;
+
+                        case PingHealthEnum.Normal:
+                            lineColor = Config.NormalColor;
+                            break;
+
+                        case PingHealthEnum.Bad:
+                            lineColor = Config.BadColor;
+                            break;
+                    }
+
+                    // from 1 to 15
+                    value = Math.Min(value, Config.MaxPing);
+                    float newValue = value * 14f / Config.MaxPing + 1f;
+
+                    g.DrawLine(Config.BgColor, 15, 15, 15, 1);
+
+                    g.DrawLine(lineColor, 15, 15, 15, 15 - newValue);
+                    g.DrawImage(drawable, -1f, 0f);
+                    g.DrawRectangle(Pens.Black, 0, 0, 15, 15);
+                    SetIcon();
+                }
             }
         }
 
@@ -124,21 +200,13 @@ namespace PingoMeter
                 byte[] buffer = new byte[4];
 
                 // У меня на столько хреновый интернет, что timeout вылазиет постоянно.
-                // Так что нужно проверять дважды.
+                // Так что нужно проверять дважды. (for bad internet)
                 bool timeOutAgain = false;
 
                 for (; ; )
                 {
                     try
                     {
-                        /*
-                         * Ping.Send на самом деле внутри достаточно сложно устроен.
-                         * Но точно известно, что там есть try catch.
-                         * Если интернет выключен/недоступен, то каждый вызов будет создавать исключение.
-                         * Мне это не очень нравится и хотелось бы узнать пинг без использования исключений,
-                         * или хотя бы заранее узнать о наличии доступа к сети.
-                         */
-
                         PingReply reply = p.Send(Config.TheIPAddress, 5000, buffer);
 
                         switch (reply.Status)

@@ -11,6 +11,8 @@ namespace PingoMeter
         {
             InitializeComponent();
             SyncFromConfig();
+            labelVersion.Text = "Version " + Program.VERSION;
+            toolTip1.SetToolTip(numbersModeCheckBox, "Use numbers for the ping instead of a graph.");
         }
 
         private void SyncToConfig(IPAddress address)
@@ -26,7 +28,8 @@ namespace PingoMeter
                 address: address,
                 alarmConnectionLost: alarmConnectionLost.Checked,
                 alarmTimeOut: alarmTimeOut.Checked,
-                alarmResumed: alarmResumed.Checked);
+                alarmResumed: alarmResumed.Checked,
+                useNumbers: numbersModeCheckBox.Checked);
         }
 
         private void SyncFromConfig()
@@ -42,6 +45,7 @@ namespace PingoMeter
             alarmTimeOut.Checked        = Config.AlarmTimeOut;
             alarmConnectionLost.Checked = Config.AlarmConnectionLost;
             alarmResumed.Checked        = Config.AlarmResumed;
+            numbersModeCheckBox.Checked = Config.UseNumbers;
 
             //isStartUp.Checked = Config.s_runOnStartup;
 
@@ -117,6 +121,11 @@ namespace PingoMeter
         private void LinkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://github.com/EFLFE/PingoMeter");
+        }
+
+        private void numbersModeCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            graphColorsGroupBox.Visible = !numbersModeCheckBox.Checked;
         }
     }
 }
