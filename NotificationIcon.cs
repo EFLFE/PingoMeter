@@ -91,6 +91,10 @@ namespace PingoMeter
             DestroyIcon(hicon);
         }
 
+        /// <summary>
+        /// Drawing icon.
+        /// </summary>
+        /// <param name="value"> Current ping. If the value is less that 0 - no ping. </param>
         private void DrawGraph(long value)
         {
             if (value < 0)
@@ -199,8 +203,7 @@ namespace PingoMeter
                 var p = new Ping();
                 byte[] buffer = new byte[4];
 
-                // У меня на столько хреновый интернет, что timeout вылазиет постоянно.
-                // Так что нужно проверять дважды. (for bad internet)
+                // I have so much bad Internet that the timeout alarm goes out all the time. So, check twice.
                 bool timeOutAgain = false;
 
                 for (; ; )
