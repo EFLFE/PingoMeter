@@ -6,4 +6,4 @@ PingoMeter - is a small program that show your ping in Windows system tray (in g
 ![](https://i.imgur.com/kWFGqRa.png)
 
 ![](https://i.imgur.com/tJKTuKD.png)
-![](https://i.imgur.com/Bx0Z6nI.png)
+![](https://i.imgur.com/X2ezh5Y.png)
