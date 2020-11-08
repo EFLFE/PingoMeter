@@ -39,6 +39,12 @@ namespace PingoMeter
         public static bool AlarmTimeOut;
         public static bool AlarmResumed;
 
+        // sound effects path to .wav (or "(none)")
+        public const string NONE_SFX = "(none)";
+        public static string SFXConnectionLost;
+        public static string SFXTimeOut;
+        public static string SFXResumed;
+
         /// <summary> Use numbers for the ping instead of a graph. </summary>
         public static bool UseNumbers;
 
@@ -46,7 +52,8 @@ namespace PingoMeter
 
         public static void SetAll(int delay, int maxPing, Color bgColor, Color goodColor, Color normalColor,
                                   Color badColor, bool runOnStartup, IPAddress address,
-                                  bool alarmConnectionLost, bool alarmTimeOut, bool alarmResumed, bool useNumbers)
+                                  bool alarmConnectionLost, bool alarmTimeOut, bool alarmResumed, bool useNumbers,
+                                  string _SFXConnectionLost, string _SFXTimeOut, string _SFXResumed)
         {
             Delay               = delay;
             MaxPing             = maxPing;
@@ -60,6 +67,9 @@ namespace PingoMeter
             AlarmTimeOut        = alarmTimeOut;
             AlarmResumed        = alarmResumed;
             UseNumbers          = useNumbers;
+            SFXConnectionLost   = _SFXConnectionLost;
+            SFXTimeOut          = _SFXTimeOut;
+            SFXResumed          = _SFXResumed;
         }
 
         public static void Reset()
@@ -76,6 +86,9 @@ namespace PingoMeter
             AlarmTimeOut        = false;
             AlarmResumed        = false;
             UseNumbers          = false;
+            SFXConnectionLost   = "null";
+            SFXTimeOut          = "null";
+            SFXResumed          = "null";
         }
 
         public static void Load()
@@ -145,6 +158,18 @@ namespace PingoMeter
                             case nameof(UseNumbers):
                                 bool.TryParse(split[1], out UseNumbers);
                                 break;
+
+                            case nameof(SFXConnectionLost):
+                                SFXConnectionLost = split[1];
+                                break;
+
+                            case nameof(SFXTimeOut):
+                                SFXTimeOut = split[1];
+                                break;
+
+                            case nameof(SFXResumed):
+                                SFXResumed = split[1];
+                                break;
                         }
                     }
                 }
@@ -192,6 +217,10 @@ namespace PingoMeter
             sb.AppendLine($"{nameof(AlarmTimeOut)} {AlarmTimeOut}");
             sb.AppendLine($"{nameof(AlarmResumed)} {AlarmResumed}");
             sb.AppendLine($"{nameof(UseNumbers)} {UseNumbers}");
+
+            sb.AppendLine($"{nameof(SFXConnectionLost)} {SFXConnectionLost}");
+            sb.AppendLine($"{nameof(SFXTimeOut)} {SFXTimeOut}");
+            sb.AppendLine($"{nameof(SFXResumed)} {SFXResumed}");
 
             File.WriteAllText(CONF_FILE_NAME, sb.ToString());
         }

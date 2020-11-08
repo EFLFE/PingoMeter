@@ -50,6 +50,8 @@
             this.ipAddress = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.numbersModeCheckBox = new System.Windows.Forms.CheckBox();
+            this.graphColorsGroupBox = new System.Windows.Forms.GroupBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.alarmTimeOut = new System.Windows.Forms.CheckBox();
@@ -60,18 +62,24 @@
             this.labelVersion = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.graphColorsGroupBox = new System.Windows.Forms.GroupBox();
-            this.numbersModeCheckBox = new System.Windows.Forms.CheckBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.pingTimeoutSFXBtn = new System.Windows.Forms.Button();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.connectionLostSFXBtn = new System.Windows.Forms.Button();
+            this.connectionResumeSFXBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.delay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxPing)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.graphColorsGroupBox.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.graphColorsGroupBox.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -155,7 +163,7 @@
             this.setBgColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(70)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.setBgColor.Cursor = System.Windows.Forms.Cursors.Hand;
             this.setBgColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.setBgColor.Location = new System.Drawing.Point(155, 25);
+            this.setBgColor.Location = new System.Drawing.Point(130, 25);
             this.setBgColor.Name = "setBgColor";
             this.setBgColor.Size = new System.Drawing.Size(23, 23);
             this.setBgColor.TabIndex = 3;
@@ -167,7 +175,7 @@
             this.setGoodColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(120)))), ((int)(((byte)(180)))), ((int)(((byte)(0)))));
             this.setGoodColor.Cursor = System.Windows.Forms.Cursors.Hand;
             this.setGoodColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.setGoodColor.Location = new System.Drawing.Point(155, 54);
+            this.setGoodColor.Location = new System.Drawing.Point(130, 54);
             this.setGoodColor.Name = "setGoodColor";
             this.setGoodColor.Size = new System.Drawing.Size(23, 23);
             this.setGoodColor.TabIndex = 4;
@@ -179,7 +187,7 @@
             this.setNormalColor.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(180)))), ((int)(((byte)(0)))));
             this.setNormalColor.Cursor = System.Windows.Forms.Cursors.Hand;
             this.setNormalColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.setNormalColor.Location = new System.Drawing.Point(155, 83);
+            this.setNormalColor.Location = new System.Drawing.Point(130, 83);
             this.setNormalColor.Name = "setNormalColor";
             this.setNormalColor.Size = new System.Drawing.Size(23, 23);
             this.setNormalColor.TabIndex = 5;
@@ -191,7 +199,7 @@
             this.setBadColor.BackColor = System.Drawing.Color.Red;
             this.setBadColor.Cursor = System.Windows.Forms.Cursors.Hand;
             this.setBadColor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.setBadColor.Location = new System.Drawing.Point(155, 112);
+            this.setBadColor.Location = new System.Drawing.Point(130, 112);
             this.setBadColor.Name = "setBadColor";
             this.setBadColor.Size = new System.Drawing.Size(23, 23);
             this.setBadColor.TabIndex = 6;
@@ -314,9 +322,38 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Basic";
             // 
+            // numbersModeCheckBox
+            // 
+            this.numbersModeCheckBox.AutoSize = true;
+            this.numbersModeCheckBox.Location = new System.Drawing.Point(6, 65);
+            this.numbersModeCheckBox.Name = "numbersModeCheckBox";
+            this.numbersModeCheckBox.Size = new System.Drawing.Size(215, 19);
+            this.numbersModeCheckBox.TabIndex = 8;
+            this.numbersModeCheckBox.Text = "Numbers mode (ping from 0 to 99)";
+            this.numbersModeCheckBox.UseVisualStyleBackColor = true;
+            this.numbersModeCheckBox.CheckedChanged += new System.EventHandler(this.numbersModeCheckBox_CheckedChanged);
+            // 
+            // graphColorsGroupBox
+            // 
+            this.graphColorsGroupBox.Controls.Add(this.label2);
+            this.graphColorsGroupBox.Controls.Add(this.setBgColor);
+            this.graphColorsGroupBox.Controls.Add(this.setGoodColor);
+            this.graphColorsGroupBox.Controls.Add(this.label3);
+            this.graphColorsGroupBox.Controls.Add(this.setNormalColor);
+            this.graphColorsGroupBox.Controls.Add(this.label4);
+            this.graphColorsGroupBox.Controls.Add(this.setBadColor);
+            this.graphColorsGroupBox.Controls.Add(this.label5);
+            this.graphColorsGroupBox.Location = new System.Drawing.Point(9, 90);
+            this.graphColorsGroupBox.Name = "graphColorsGroupBox";
+            this.graphColorsGroupBox.Size = new System.Drawing.Size(316, 150);
+            this.graphColorsGroupBox.TabIndex = 7;
+            this.graphColorsGroupBox.TabStop = false;
+            this.graphColorsGroupBox.Text = "Graph colors and Sound effect";
+            // 
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.label7);
             this.tabPage2.Controls.Add(this.ipAddress);
@@ -337,7 +374,7 @@
             this.groupBox1.Size = new System.Drawing.Size(311, 93);
             this.groupBox1.TabIndex = 10;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Alarm when:";
+            this.groupBox1.Text = "Balloon tip alarm when:";
             // 
             // alarmTimeOut
             // 
@@ -421,33 +458,80 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // graphColorsGroupBox
+            // pingTimeoutSFXBtn
             // 
-            this.graphColorsGroupBox.Controls.Add(this.label2);
-            this.graphColorsGroupBox.Controls.Add(this.setBgColor);
-            this.graphColorsGroupBox.Controls.Add(this.setGoodColor);
-            this.graphColorsGroupBox.Controls.Add(this.label3);
-            this.graphColorsGroupBox.Controls.Add(this.setNormalColor);
-            this.graphColorsGroupBox.Controls.Add(this.label4);
-            this.graphColorsGroupBox.Controls.Add(this.setBadColor);
-            this.graphColorsGroupBox.Controls.Add(this.label5);
-            this.graphColorsGroupBox.Location = new System.Drawing.Point(9, 90);
-            this.graphColorsGroupBox.Name = "graphColorsGroupBox";
-            this.graphColorsGroupBox.Size = new System.Drawing.Size(316, 150);
-            this.graphColorsGroupBox.TabIndex = 7;
-            this.graphColorsGroupBox.TabStop = false;
-            this.graphColorsGroupBox.Text = "Graph colors";
+            this.pingTimeoutSFXBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.pingTimeoutSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.pingTimeoutSFXBtn.Location = new System.Drawing.Point(128, 23);
+            this.pingTimeoutSFXBtn.Name = "pingTimeoutSFXBtn";
+            this.pingTimeoutSFXBtn.Size = new System.Drawing.Size(177, 23);
+            this.pingTimeoutSFXBtn.TabIndex = 11;
+            this.pingTimeoutSFXBtn.Text = "none";
+            this.pingTimeoutSFXBtn.UseVisualStyleBackColor = true;
             // 
-            // numbersModeCheckBox
+            // groupBox2
             // 
-            this.numbersModeCheckBox.AutoSize = true;
-            this.numbersModeCheckBox.Location = new System.Drawing.Point(6, 65);
-            this.numbersModeCheckBox.Name = "numbersModeCheckBox";
-            this.numbersModeCheckBox.Size = new System.Drawing.Size(215, 19);
-            this.numbersModeCheckBox.TabIndex = 8;
-            this.numbersModeCheckBox.Text = "Numbers mode (ping from 0 to 99)";
-            this.numbersModeCheckBox.UseVisualStyleBackColor = true;
-            this.numbersModeCheckBox.CheckedChanged += new System.EventHandler(this.numbersModeCheckBox_CheckedChanged);
+            this.groupBox2.Controls.Add(this.label11);
+            this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.connectionResumeSFXBtn);
+            this.groupBox2.Controls.Add(this.connectionLostSFXBtn);
+            this.groupBox2.Controls.Add(this.pingTimeoutSFXBtn);
+            this.groupBox2.Location = new System.Drawing.Point(6, 133);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(311, 116);
+            this.groupBox2.TabIndex = 12;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Alarm sound when (right click to clear):";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 26);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(79, 15);
+            this.label8.TabIndex = 12;
+            this.label8.Text = "Ping timeout:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 55);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(94, 15);
+            this.label10.TabIndex = 12;
+            this.label10.Text = "Connection lost:";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 84);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(117, 15);
+            this.label11.TabIndex = 12;
+            this.label11.Text = "Connection resume:";
+            // 
+            // connectionLostSFXBtn
+            // 
+            this.connectionLostSFXBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.connectionLostSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.connectionLostSFXBtn.Location = new System.Drawing.Point(128, 52);
+            this.connectionLostSFXBtn.Name = "connectionLostSFXBtn";
+            this.connectionLostSFXBtn.Size = new System.Drawing.Size(177, 23);
+            this.connectionLostSFXBtn.TabIndex = 11;
+            this.connectionLostSFXBtn.Text = "none";
+            this.connectionLostSFXBtn.UseVisualStyleBackColor = true;
+            // 
+            // connectionResumeSFXBtn
+            // 
+            this.connectionResumeSFXBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.connectionResumeSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.connectionResumeSFXBtn.Location = new System.Drawing.Point(128, 81);
+            this.connectionResumeSFXBtn.Name = "connectionResumeSFXBtn";
+            this.connectionResumeSFXBtn.Size = new System.Drawing.Size(177, 23);
+            this.connectionResumeSFXBtn.TabIndex = 11;
+            this.connectionResumeSFXBtn.Text = "none";
+            this.connectionResumeSFXBtn.UseVisualStyleBackColor = true;
             // 
             // Setting
             // 
@@ -470,6 +554,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.graphColorsGroupBox.ResumeLayout(false);
+            this.graphColorsGroupBox.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
@@ -477,8 +563,8 @@
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.graphColorsGroupBox.ResumeLayout(false);
-            this.graphColorsGroupBox.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -518,5 +604,12 @@
         private System.Windows.Forms.CheckBox numbersModeCheckBox;
         private System.Windows.Forms.GroupBox graphColorsGroupBox;
         private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.Button pingTimeoutSFXBtn;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Button connectionResumeSFXBtn;
+        private System.Windows.Forms.Button connectionLostSFXBtn;
     }
 }

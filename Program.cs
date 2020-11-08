@@ -8,7 +8,7 @@ namespace PingoMeter
     internal static class Program
     {
         /// <summary> x.x.x program version string. </summary>
-        public const string VERSION = "0.9.5";
+        public const string VERSION = "0.9.6";
 
         [STAThread]
         public static void Main(string[] args)

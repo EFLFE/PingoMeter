@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.Media;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 using System.Threading;
@@ -24,6 +25,10 @@ namespace PingoMeter
         Bitmap drawable;
         Graphics g;
         Font font;
+
+        SoundPlayer SFXConnectionLost;
+        SoundPlayer SFXTimeOut;
+        SoundPlayer SFXResumed;
 
         enum PingHealthEnum
         {
@@ -60,6 +65,10 @@ namespace PingoMeter
                 ContextMenu = notificationMenu,
                 Visible = true
             };
+
+            SFXConnectionLost = new SoundPlayer();
+            SFXTimeOut        = new SoundPlayer();
+            SFXResumed        = new SoundPlayer();
 
             originalImage = Image.FromFile("Resources\\none.png");
             drawable = Properties.Resources.none;
@@ -220,8 +229,13 @@ namespace PingoMeter
                                 if (timeOutAgain)
                                 {
                                     notifyIcon.Text = "Status: Time out";
-                                    if (alarmStatus == AlarmEnum.OK && Config.AlarmTimeOut)
-                                        notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", "Ping time out", ToolTipIcon.Warning);
+                                    if (alarmStatus == AlarmEnum.OK)
+                                    {
+                                        if (Config.AlarmTimeOut)
+                                            notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", "Ping time out", ToolTipIcon.Warning);
+
+                                        PlaySound(SFXTimeOut, Config.SFXTimeOut);
+                                    }
 
                                     alarmStatus = AlarmEnum.TimeOut;
                                 }
@@ -235,8 +249,13 @@ namespace PingoMeter
                             case IPStatus.Success:
                                 DrawGraph(reply.RoundtripTime);
 
-                                if (alarmStatus != AlarmEnum.None && alarmStatus != AlarmEnum.OK && Config.AlarmResumed)
-                                    notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", "Ping resumed", ToolTipIcon.Info);
+                                if (alarmStatus != AlarmEnum.None && alarmStatus != AlarmEnum.OK)
+                                {
+                                    PlaySound(SFXResumed, Config.SFXResumed);
+
+                                    if (Config.AlarmResumed)
+                                        notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", "Ping resumed", ToolTipIcon.Info);
+                                }
 
                                 alarmStatus = AlarmEnum.OK;
                                 timeOutAgain = false;
@@ -247,8 +266,13 @@ namespace PingoMeter
                                 var statusName = GetIPStatusName(reply.Status);
                                 notifyIcon.Text = "Status: " + statusName;
 
-                                if (alarmStatus != AlarmEnum.ConnectionLost && Config.AlarmConnectionLost)
-                                    notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", statusName, ToolTipIcon.Error);
+                                if (alarmStatus != AlarmEnum.ConnectionLost)
+                                {
+                                    PlaySound(SFXConnectionLost, Config.SFXConnectionLost);
+
+                                    if (Config.AlarmConnectionLost)
+                                        notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", statusName, ToolTipIcon.Error);
+                                }
 
                                 alarmStatus = AlarmEnum.ConnectionLost;
                                 break;
@@ -259,8 +283,13 @@ namespace PingoMeter
                         DrawGraph(-1L);
                         notifyIcon.Text = "Status: Connection lost.";
 
-                        if (alarmStatus != AlarmEnum.ConnectionLost && Config.AlarmConnectionLost)
-                            notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", "Connection lost", ToolTipIcon.Error);
+                        if (alarmStatus != AlarmEnum.ConnectionLost)
+                        {
+                            PlaySound(SFXConnectionLost, Config.SFXConnectionLost);
+
+                            if (Config.AlarmConnectionLost)
+                                notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", "Connection lost", ToolTipIcon.Error);
+                        }
 
                         alarmStatus = AlarmEnum.ConnectionLost;
                     }
@@ -271,7 +300,6 @@ namespace PingoMeter
                         notifyIcon.Text = "Status: Error.";
 
                         notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", "Error: " + ex.Message, ToolTipIcon.Error);
-
                         alarmStatus = AlarmEnum.None;
                     }
 
@@ -282,6 +310,30 @@ namespace PingoMeter
             {
                 MessageBox.Show(ex.ToString(), "PingoMeter crash log");
                 alarmStatus = AlarmEnum.None;
+            }
+        }
+
+        private void PlaySound(SoundPlayer soundPlayer, string pathToSound)
+        {
+            if (!string.IsNullOrWhiteSpace(pathToSound) && pathToSound != Config.NONE_SFX)
+            {
+                if (soundPlayer.SoundLocation == null || soundPlayer.SoundLocation != pathToSound)
+                {
+                    // new sound
+                    try
+                    {
+                        soundPlayer.SoundLocation = pathToSound;
+                        soundPlayer.Load();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message + "\n\nFile: " + pathToSound, "Load sound error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+
+                if (soundPlayer.IsLoadCompleted)
+                    soundPlayer.Play();
             }
         }
 
