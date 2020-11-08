@@ -86,9 +86,9 @@ namespace PingoMeter
             AlarmTimeOut        = false;
             AlarmResumed        = false;
             UseNumbers          = false;
-            SFXConnectionLost   = "null";
-            SFXTimeOut          = "null";
-            SFXResumed          = "null";
+            SFXConnectionLost   = NONE_SFX;
+            SFXTimeOut          = NONE_SFX;
+            SFXResumed          = NONE_SFX;
         }
 
         public static void Load()
