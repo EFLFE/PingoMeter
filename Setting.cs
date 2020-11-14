@@ -9,6 +9,7 @@ namespace PingoMeter
 {
     public partial class Setting : Form
     {
+        bool loaded;
         SoundPlayer testPlay;
 
         public Setting()
@@ -25,6 +26,8 @@ namespace PingoMeter
             pingTimeoutSFXBtn.MouseDown      += (s, e) => ClearSFX(pingTimeoutSFXBtn, e);
             connectionLostSFXBtn.MouseDown   += (s, e) => ClearSFX(connectionLostSFXBtn, e);
             connectionResumeSFXBtn.MouseDown += (s, e) => ClearSFX(connectionResumeSFXBtn, e);
+
+            loaded = true;
         }
 
         private void SyncToConfig(IPAddress address)
@@ -90,25 +93,28 @@ namespace PingoMeter
                 button.Text = Path.GetFileNameWithoutExtension(pathToFile);
                 toolTip1.SetToolTip(button, pathToFile);
 
-                if (testPlay == null)
-                    testPlay = new SoundPlayer();
-
-                if (testPlay.SoundLocation != pathToFile)
+                if (loaded)
                 {
-                    testPlay.SoundLocation = pathToFile;
-                    try
-                    {
-                        testPlay.Load();
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message + "\n\nFile: " + pathToFile, "Load sound error",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
-                }
+                    if (testPlay == null)
+                        testPlay = new SoundPlayer();
 
-                if (testPlay.IsLoadCompleted)
-                    testPlay.Play();
+                    if (testPlay.SoundLocation != pathToFile)
+                    {
+                        testPlay.SoundLocation = pathToFile;
+                        try
+                        {
+                            testPlay.Load();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(ex.Message + "\n\nFile: " + pathToFile, "Load sound error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
+                    }
+
+                    if (testPlay.IsLoadCompleted)
+                        testPlay.Play();
+                }
             }
         }
 
