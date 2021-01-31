@@ -19,8 +19,8 @@ namespace PingoMeter
                 // Do not use the debugger. This can cause a BSOD.
                 // This is a known bug in Windows 7, you'll get a BSOD with bug-check code 0x76...
                 // More: https://stackoverflow.com/questions/17756824/blue-screen-when-using-ping
-                Debugger.Break();
-                return;
+                //Debugger.Break();
+                //return;
             }
 
             try
