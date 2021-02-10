@@ -4,22 +4,43 @@ using System.Text;
 using System.Windows.Forms;
 using Microsoft.Win32;
 
-namespace RunOnStartup
+// Original code: https://gist.github.com/HelBorn/2266242
+
+namespace PingoMeter.vendor.StartupCreator
 {
     /// <summary>
     /// It attempts to write to HKEY_LOCAL_MACHINE first, which will run on startup on all user accounts.
     /// If it fails (due to lack of privileges), it attempts HKEY_CURRENT_USER, which will only run the program
     /// on the current Windows account the user is logged into.
     /// </summary>
-    public class Startup
+    public class StartupViaRegistry : StartupCreator
     {
+
+
+        /// <summary>
+        /// Checks if this executable is in the startup list.
+        /// </summary>
+        public bool IsInStartup()
+        {
+            return IsInStartup(Application.ProductName, Application.ExecutablePath);
+        }
         /// <summary>
         /// Adds this executable to the startup list.
         /// </summary>
-        public static bool RunOnStartup()
+        public bool RunOnStartup()
         {
             return RunOnStartup(Application.ProductName, Application.ExecutablePath);
         }
+
+        /// <summary>
+        /// Removes this executable from the startup list.
+        /// </summary>
+        public bool RemoveFromStartup()
+        {
+            return RemoveFromStartup(Application.ProductName, Application.ExecutablePath);
+        }
+
+        //====================================
 
         /// <summary>
         /// Adds the specified executable to the startup list.
@@ -51,13 +72,7 @@ namespace RunOnStartup
             return true;
         }
 
-        /// <summary>
-        /// Removes this executable from the startup list.
-        /// </summary>
-        public static bool RemoveFromStartup()
-        {
-            return RemoveFromStartup(Application.ProductName, Application.ExecutablePath);
-        }
+
 
         /// <summary>
         /// Removes the specified executable from the startup list.
@@ -118,14 +133,6 @@ namespace RunOnStartup
             return true;
         }
 
-        /// <summary>
-        /// Checks if this executable is in the startup list.
-        /// </summary>
-        /// <returns></returns>
-        public static bool IsInStartup()
-        {
-            return IsInStartup(Application.ProductName, Application.ExecutablePath);
-        }
 
         /// <summary>
         /// Checks if specified executable is in the startup list.
@@ -182,5 +189,6 @@ namespace RunOnStartup
 
             return false;
         }
+
     }
 }

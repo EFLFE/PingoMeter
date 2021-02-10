@@ -1,6 +1,9 @@
-﻿using RunOnStartup;
+﻿using PingoMeter.vendor;
+using PingoMeter.vendor.StartupCreator;
+
 using System;
 using System.Drawing;
+using System.IO;
 using System.Media;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
@@ -50,6 +53,8 @@ namespace PingoMeter
 
         AlarmEnum alarmStatus;
 
+        StartupCreator startupManager = new StartupViaLink(Application.StartupPath + @"\Resources\op.ico");
+
         public NotificationIcon()
         {
             Config.Load();
@@ -71,8 +76,9 @@ namespace PingoMeter
             SFXConnectionLost = new SoundPlayer();
             SFXTimeOut        = new SoundPlayer();
             SFXResumed        = new SoundPlayer();
-
-            originalImage = Image.FromFile("Resources\\none.png");
+            
+            var apppath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            originalImage = Image.FromFile(System.IO.Path.Combine(apppath, "Resources\\none.png"));
             drawable = Properties.Resources.none;
             hiconOriginal = Properties.Resources.none.GetHicon();
             noneIcon = Icon.FromHandle(hiconOriginal);
@@ -150,6 +156,8 @@ namespace PingoMeter
             }
             else
             {
+                offlineTimer = null;
+
                 notifyIcon.Text = $"Ping [{Config.GetIPName}]: {value.ToString()}";
 
                 var pingHealth = PingHealthEnum.Bad;
@@ -392,9 +400,9 @@ namespace PingoMeter
             {
                 if (Config.RunOnStartup)
                 {
-                    if (!Startup.IsInStartup())
+                    if (!startupManager.IsInStartup())
                     {
-                        if (!Startup.RunOnStartup())
+                        if (!startupManager.RunOnStartup())
                         {
                             MessageBox.Show("Adding to autorun is failed!");
                         }
@@ -402,9 +410,9 @@ namespace PingoMeter
                 }
                 else
                 {
-                    if (Startup.IsInStartup())
+                    if (startupManager.IsInStartup())
                     {
-                        if (!Startup.RemoveFromStartup())
+                        if (!startupManager.RemoveFromStartup())
                         {
                             MessageBox.Show("Failed on disabling autorun!");
                         }
