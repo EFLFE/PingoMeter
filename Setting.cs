@@ -39,7 +39,7 @@ namespace PingoMeter
                 goodColor: setGoodColor.BackColor,
                 normalColor: setNormalColor.BackColor,
                 badColor: setBadColor.BackColor,
-                runOnStartup: false,
+                runOnStartup: cbStartupRun.Checked,
                 address: address,
                 alarmConnectionLost: alarmConnectionLost.Checked,
                 alarmTimeOut: alarmTimeOut.Checked,
@@ -47,7 +47,8 @@ namespace PingoMeter
                 useNumbers: numbersModeCheckBox.Checked,
                 _SFXConnectionLost: toolTip1.GetToolTip(connectionLostSFXBtn),
                 _SFXTimeOut: toolTip1.GetToolTip(pingTimeoutSFXBtn),
-                _SFXResumed: toolTip1.GetToolTip(connectionResumeSFXBtn));
+                _SFXResumed: toolTip1.GetToolTip(connectionResumeSFXBtn),
+                offlineCounter: cbOfflineCounter.Checked);
         }
 
         private void SyncFromConfig()
@@ -64,6 +65,8 @@ namespace PingoMeter
             alarmConnectionLost.Checked = Config.AlarmConnectionLost;
             alarmResumed.Checked        = Config.AlarmResumed;
             numbersModeCheckBox.Checked = Config.UseNumbers;
+            cbStartupRun.Checked        = Config.RunOnStartup;
+            cbOfflineCounter.Checked = Config.OfflineCounter;
 
             //isStartUp.Checked = Config.s_runOnStartup;
 

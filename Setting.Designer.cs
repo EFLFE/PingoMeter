@@ -53,6 +53,13 @@
             this.numbersModeCheckBox = new System.Windows.Forms.CheckBox();
             this.graphColorsGroupBox = new System.Windows.Forms.GroupBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.connectionResumeSFXBtn = new System.Windows.Forms.Button();
+            this.connectionLostSFXBtn = new System.Windows.Forms.Button();
+            this.pingTimeoutSFXBtn = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.alarmTimeOut = new System.Windows.Forms.CheckBox();
             this.alarmResumed = new System.Windows.Forms.CheckBox();
@@ -63,23 +70,18 @@
             this.label9 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.pingTimeoutSFXBtn = new System.Windows.Forms.Button();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.connectionLostSFXBtn = new System.Windows.Forms.Button();
-            this.connectionResumeSFXBtn = new System.Windows.Forms.Button();
+            this.cbStartupRun = new System.Windows.Forms.CheckBox();
+            this.cbOfflineCounter = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.delay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxPing)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.graphColorsGroupBox.SuspendLayout();
             this.tabPage2.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
@@ -208,7 +210,9 @@
             // 
             // apply
             // 
-            this.apply.Location = new System.Drawing.Point(12, 301);
+            this.apply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.apply.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.apply.Location = new System.Drawing.Point(12, 353);
             this.apply.Name = "apply";
             this.apply.Size = new System.Drawing.Size(75, 26);
             this.apply.TabIndex = 9;
@@ -218,7 +222,8 @@
             // 
             // reset
             // 
-            this.reset.Location = new System.Drawing.Point(276, 301);
+            this.reset.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.reset.Location = new System.Drawing.Point(276, 353);
             this.reset.Name = "reset";
             this.reset.Size = new System.Drawing.Size(75, 26);
             this.reset.TabIndex = 11;
@@ -228,7 +233,8 @@
             // 
             // cancel
             // 
-            this.cancel.Location = new System.Drawing.Point(93, 301);
+            this.cancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.cancel.Location = new System.Drawing.Point(93, 353);
             this.cancel.Name = "cancel";
             this.cancel.Size = new System.Drawing.Size(75, 26);
             this.cancel.TabIndex = 10;
@@ -296,6 +302,9 @@
             // 
             // tabControl1
             // 
+            this.tabControl1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
@@ -303,12 +312,13 @@
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.Padding = new System.Drawing.Point(30, 3);
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(339, 283);
+            this.tabControl1.Size = new System.Drawing.Size(339, 335);
             this.tabControl1.TabIndex = 12;
             // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage1.Controls.Add(this.cbOfflineCounter);
             this.tabPage1.Controls.Add(this.numbersModeCheckBox);
             this.tabPage1.Controls.Add(this.graphColorsGroupBox);
             this.tabPage1.Controls.Add(this.label1);
@@ -318,7 +328,7 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 24);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(331, 255);
+            this.tabPage1.Size = new System.Drawing.Size(331, 307);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Basic";
             // 
@@ -335,6 +345,8 @@
             // 
             // graphColorsGroupBox
             // 
+            this.graphColorsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.graphColorsGroupBox.Controls.Add(this.label2);
             this.graphColorsGroupBox.Controls.Add(this.setBgColor);
             this.graphColorsGroupBox.Controls.Add(this.setGoodColor);
@@ -353,6 +365,7 @@
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Controls.Add(this.cbStartupRun);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.groupBox1);
             this.tabPage2.Controls.Add(this.label7);
@@ -360,9 +373,84 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 24);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(331, 255);
+            this.tabPage2.Size = new System.Drawing.Size(331, 307);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Advanced";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label11);
+            this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Controls.Add(this.connectionResumeSFXBtn);
+            this.groupBox2.Controls.Add(this.connectionLostSFXBtn);
+            this.groupBox2.Controls.Add(this.pingTimeoutSFXBtn);
+            this.groupBox2.Location = new System.Drawing.Point(6, 133);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(311, 116);
+            this.groupBox2.TabIndex = 12;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Alarm sound when (right click to clear):";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 84);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(117, 15);
+            this.label11.TabIndex = 12;
+            this.label11.Text = "Connection resume:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 55);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(94, 15);
+            this.label10.TabIndex = 12;
+            this.label10.Text = "Connection lost:";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 26);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(79, 15);
+            this.label8.TabIndex = 12;
+            this.label8.Text = "Ping timeout:";
+            // 
+            // connectionResumeSFXBtn
+            // 
+            this.connectionResumeSFXBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.connectionResumeSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.connectionResumeSFXBtn.Location = new System.Drawing.Point(128, 81);
+            this.connectionResumeSFXBtn.Name = "connectionResumeSFXBtn";
+            this.connectionResumeSFXBtn.Size = new System.Drawing.Size(177, 23);
+            this.connectionResumeSFXBtn.TabIndex = 11;
+            this.connectionResumeSFXBtn.Text = "none";
+            this.connectionResumeSFXBtn.UseVisualStyleBackColor = true;
+            // 
+            // connectionLostSFXBtn
+            // 
+            this.connectionLostSFXBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.connectionLostSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.connectionLostSFXBtn.Location = new System.Drawing.Point(128, 52);
+            this.connectionLostSFXBtn.Name = "connectionLostSFXBtn";
+            this.connectionLostSFXBtn.Size = new System.Drawing.Size(177, 23);
+            this.connectionLostSFXBtn.TabIndex = 11;
+            this.connectionLostSFXBtn.Text = "none";
+            this.connectionLostSFXBtn.UseVisualStyleBackColor = true;
+            // 
+            // pingTimeoutSFXBtn
+            // 
+            this.pingTimeoutSFXBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.pingTimeoutSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.pingTimeoutSFXBtn.Location = new System.Drawing.Point(128, 23);
+            this.pingTimeoutSFXBtn.Name = "pingTimeoutSFXBtn";
+            this.pingTimeoutSFXBtn.Size = new System.Drawing.Size(177, 23);
+            this.pingTimeoutSFXBtn.TabIndex = 11;
+            this.pingTimeoutSFXBtn.Text = "none";
+            this.pingTimeoutSFXBtn.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
@@ -415,7 +503,7 @@
             this.tabPage3.Controls.Add(this.pictureBox1);
             this.tabPage3.Location = new System.Drawing.Point(4, 24);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(331, 255);
+            this.tabPage3.Size = new System.Drawing.Size(331, 307);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "About";
             // 
@@ -458,87 +546,32 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // pingTimeoutSFXBtn
+            // cbStartupRun
             // 
-            this.pingTimeoutSFXBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.pingTimeoutSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.pingTimeoutSFXBtn.Location = new System.Drawing.Point(128, 23);
-            this.pingTimeoutSFXBtn.Name = "pingTimeoutSFXBtn";
-            this.pingTimeoutSFXBtn.Size = new System.Drawing.Size(177, 23);
-            this.pingTimeoutSFXBtn.TabIndex = 11;
-            this.pingTimeoutSFXBtn.Text = "none";
-            this.pingTimeoutSFXBtn.UseVisualStyleBackColor = true;
+            this.cbStartupRun.AutoSize = true;
+            this.cbStartupRun.Location = new System.Drawing.Point(6, 255);
+            this.cbStartupRun.Name = "cbStartupRun";
+            this.cbStartupRun.Size = new System.Drawing.Size(159, 19);
+            this.cbStartupRun.TabIndex = 13;
+            this.cbStartupRun.Text = "Run on Windows startup";
+            this.cbStartupRun.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
+            // cbOfflineCounter
             // 
-            this.groupBox2.Controls.Add(this.label11);
-            this.groupBox2.Controls.Add(this.label10);
-            this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Controls.Add(this.connectionResumeSFXBtn);
-            this.groupBox2.Controls.Add(this.connectionLostSFXBtn);
-            this.groupBox2.Controls.Add(this.pingTimeoutSFXBtn);
-            this.groupBox2.Location = new System.Drawing.Point(6, 133);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(311, 116);
-            this.groupBox2.TabIndex = 12;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Alarm sound when (right click to clear):";
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 26);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(79, 15);
-            this.label8.TabIndex = 12;
-            this.label8.Text = "Ping timeout:";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(6, 55);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(94, 15);
-            this.label10.TabIndex = 12;
-            this.label10.Text = "Connection lost:";
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(6, 84);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(117, 15);
-            this.label11.TabIndex = 12;
-            this.label11.Text = "Connection resume:";
-            // 
-            // connectionLostSFXBtn
-            // 
-            this.connectionLostSFXBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.connectionLostSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.connectionLostSFXBtn.Location = new System.Drawing.Point(128, 52);
-            this.connectionLostSFXBtn.Name = "connectionLostSFXBtn";
-            this.connectionLostSFXBtn.Size = new System.Drawing.Size(177, 23);
-            this.connectionLostSFXBtn.TabIndex = 11;
-            this.connectionLostSFXBtn.Text = "none";
-            this.connectionLostSFXBtn.UseVisualStyleBackColor = true;
-            // 
-            // connectionResumeSFXBtn
-            // 
-            this.connectionResumeSFXBtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.connectionResumeSFXBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.connectionResumeSFXBtn.Location = new System.Drawing.Point(128, 81);
-            this.connectionResumeSFXBtn.Name = "connectionResumeSFXBtn";
-            this.connectionResumeSFXBtn.Size = new System.Drawing.Size(177, 23);
-            this.connectionResumeSFXBtn.TabIndex = 11;
-            this.connectionResumeSFXBtn.Text = "none";
-            this.connectionResumeSFXBtn.UseVisualStyleBackColor = true;
+            this.cbOfflineCounter.AutoSize = true;
+            this.cbOfflineCounter.Location = new System.Drawing.Point(6, 246);
+            this.cbOfflineCounter.Name = "cbOfflineCounter";
+            this.cbOfflineCounter.Size = new System.Drawing.Size(132, 19);
+            this.cbOfflineCounter.TabIndex = 9;
+            this.cbOfflineCounter.Text = "Offline time counter";
+            this.cbOfflineCounter.UseVisualStyleBackColor = true;
             // 
             // Setting
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
-            this.ClientSize = new System.Drawing.Size(364, 340);
+            this.ClientSize = new System.Drawing.Size(364, 392);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.reset);
             this.Controls.Add(this.cancel);
@@ -558,13 +591,13 @@
             this.graphColorsGroupBox.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabPage3.ResumeLayout(false);
             this.tabPage3.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.groupBox2.ResumeLayout(false);
-            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -611,5 +644,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button connectionResumeSFXBtn;
         private System.Windows.Forms.Button connectionLostSFXBtn;
+        private System.Windows.Forms.CheckBox cbOfflineCounter;
+        private System.Windows.Forms.CheckBox cbStartupRun;
     }
 }

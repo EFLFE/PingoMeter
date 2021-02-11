@@ -7,18 +7,21 @@ namespace PingoMeter
 {
     internal static class Config
     {
+
+
         private const string CONF_FILE_NAME = "config.txt";
 
         public static int Delay = 3000;
 
         public static int MaxPing;
+        public static bool OfflineCounter = true;
 
         public static Pen BgColor;
         public static Pen GoodColor;
         public static Pen NormalColor;
         public static Pen BadColor;
 
-        public static bool RunOnStartup; // TODO RunOnStartup
+        public static bool RunOnStartup;
 
         private static string ipName;
         private static IPAddress ipAddress;
@@ -48,12 +51,14 @@ namespace PingoMeter
         /// <summary> Use numbers for the ping instead of a graph. </summary>
         public static bool UseNumbers;
 
+
+
         static Config() => Reset();
 
         public static void SetAll(int delay, int maxPing, Color bgColor, Color goodColor, Color normalColor,
                                   Color badColor, bool runOnStartup, IPAddress address,
                                   bool alarmConnectionLost, bool alarmTimeOut, bool alarmResumed, bool useNumbers,
-                                  string _SFXConnectionLost, string _SFXTimeOut, string _SFXResumed)
+                                  string _SFXConnectionLost, string _SFXTimeOut, string _SFXResumed, bool offlineCounter)
         {
             Delay               = delay;
             MaxPing             = maxPing;
@@ -70,17 +75,19 @@ namespace PingoMeter
             SFXConnectionLost   = _SFXConnectionLost;
             SFXTimeOut          = _SFXTimeOut;
             SFXResumed          = _SFXResumed;
+            OfflineCounter = offlineCounter;
         }
 
         public static void Reset()
         {
             Delay               = 3000;
             MaxPing             = 250;
+            OfflineCounter      = true;
             BgColor             = new Pen(Color.FromArgb(70, 0, 0));
             GoodColor           = new Pen(Color.FromArgb(120, 180, 0));
             NormalColor         = new Pen(Color.FromArgb(255, 180, 0));
             BadColor            = new Pen(Color.FromArgb(255, 0, 0));
-            RunOnStartup        = true;
+            RunOnStartup        = false;
             TheIPAddress        = IPAddress.Parse("8.8.8.8"); // google ip
             AlarmConnectionLost = false;
             AlarmTimeOut        = false;
@@ -221,6 +228,8 @@ namespace PingoMeter
             sb.AppendLine($"{nameof(SFXConnectionLost)} {SFXConnectionLost}");
             sb.AppendLine($"{nameof(SFXTimeOut)} {SFXTimeOut}");
             sb.AppendLine($"{nameof(SFXResumed)} {SFXResumed}");
+
+            sb.AppendLine($"{nameof(OfflineCounter)} {OfflineCounter}");
 
             File.WriteAllText(CONF_FILE_NAME, sb.ToString());
         }

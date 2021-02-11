@@ -1,5 +1,9 @@
-﻿using System;
+﻿using PingoMeter.vendor;
+using PingoMeter.vendor.StartupCreator;
+
+using System;
 using System.Drawing;
+using System.IO;
 using System.Media;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
@@ -25,6 +29,7 @@ namespace PingoMeter
         Bitmap drawable;
         Graphics g;
         Font font;
+        Font font100;
 
         SoundPlayer SFXConnectionLost;
         SoundPlayer SFXTimeOut;
@@ -48,6 +53,8 @@ namespace PingoMeter
 
         AlarmEnum alarmStatus;
 
+        StartupCreator startupManager = new StartupViaLink(Application.StartupPath + @"\Resources\op.ico");
+
         public NotificationIcon()
         {
             Config.Load();
@@ -69,13 +76,15 @@ namespace PingoMeter
             SFXConnectionLost = new SoundPlayer();
             SFXTimeOut        = new SoundPlayer();
             SFXResumed        = new SoundPlayer();
-
-            originalImage = Image.FromFile("Resources\\none.png");
+            
+            var apppath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            originalImage = Image.FromFile(System.IO.Path.Combine(apppath, "Resources\\none.png"));
             drawable = Properties.Resources.none;
             hiconOriginal = Properties.Resources.none.GetHicon();
             noneIcon = Icon.FromHandle(hiconOriginal);
             g = Graphics.FromImage(drawable);
             font = new Font("Consolas", 9f, FontStyle.Bold);
+            font100 = new Font("Consolas", 7f, FontStyle.Bold);;
             SetIcon();
         }
 
@@ -95,11 +104,21 @@ namespace PingoMeter
 
         private void SetIcon()
         {
+            // Update the notification icon to use our new icon,
+            // and destroy the old icon so we don't leak memory.
+            Icon oldIcon = notifyIcon.Icon;
+
             hicon = drawable.GetHicon();
             notifyIcon.Icon = Icon.FromHandle(hicon);
-            DestroyIcon(hicon);
+
+            if (oldIcon != null)
+            {
+                DestroyIcon(oldIcon.Handle);
+                oldIcon.Dispose();
+            }
         }
 
+        private DateTime? offlineTimer = null;
         /// <summary>
         /// Drawing icon.
         /// </summary>
@@ -108,10 +127,37 @@ namespace PingoMeter
         {
             if (value < 0)
             {
-                notifyIcon.Icon = noneIcon;
+                if (!Config.OfflineCounter)
+                {
+                    notifyIcon.Icon = noneIcon;
+                }
+                else
+                {
+
+                    // Show offline seconds on icon
+                    long offlineElapsed = 0;
+                    if (!offlineTimer.HasValue)
+                    {
+                        offlineTimer = DateTime.Now;
+                    }
+                    else
+                    {
+                        offlineElapsed = (long)(DateTime.Now - offlineTimer).Value.TotalSeconds;
+                    }
+
+                    var useFont = font;
+                    if (offlineElapsed > 100) useFont = font100;
+                    if (offlineElapsed > 999) offlineElapsed = 999;
+
+                    g.FillRectangle(Brushes.Red, 0, 0, 16, 16);
+                    g.DrawString(offlineElapsed.ToString(), useFont, Brushes.Black, -1, 1);
+                    SetIcon();
+                }
             }
             else
             {
+                offlineTimer = null;
+
                 notifyIcon.Text = $"Ping [{Config.GetIPName}]: {value.ToString()}";
 
                 var pingHealth = PingHealthEnum.Bad;
@@ -262,9 +308,12 @@ namespace PingoMeter
                                 break;
 
                             default:
+
                                 DrawGraph(-1L);
                                 var statusName = GetIPStatusName(reply.Status);
                                 notifyIcon.Text = "Status: " + statusName;
+
+                                
 
                                 if (alarmStatus != AlarmEnum.ConnectionLost)
                                 {
@@ -346,7 +395,30 @@ namespace PingoMeter
 
         private void MenuSetting(object sender, EventArgs e)
         {
-            new Setting().ShowDialog();
+            var dlgResult = new Setting().ShowDialog();
+            if (dlgResult == DialogResult.OK)
+            {
+                if (Config.RunOnStartup)
+                {
+                    if (!startupManager.IsInStartup())
+                    {
+                        if (!startupManager.RunOnStartup())
+                        {
+                            MessageBox.Show("Adding to autorun is failed!");
+                        }
+                    }
+                }
+                else
+                {
+                    if (startupManager.IsInStartup())
+                    {
+                        if (!startupManager.RemoveFromStartup())
+                        {
+                            MessageBox.Show("Failed on disabling autorun!");
+                        }
+                    }
+                }
+            }
         }
 
         private string GetIPStatusName(IPStatus status)
