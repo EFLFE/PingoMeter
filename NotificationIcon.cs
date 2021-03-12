@@ -76,7 +76,7 @@ namespace PingoMeter
             SFXConnectionLost = new SoundPlayer();
             SFXTimeOut        = new SoundPlayer();
             SFXResumed        = new SoundPlayer();
-            
+
             var apppath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
             originalImage = Image.FromFile(System.IO.Path.Combine(apppath, "Resources\\none.png"));
             drawable = Properties.Resources.none;
@@ -158,7 +158,7 @@ namespace PingoMeter
             {
                 offlineTimer = null;
 
-                notifyIcon.Text = $"Ping [{Config.GetIPName}]: {value.ToString()}";
+                notifyIcon.Text = $"Ping [{Config.GetIPName}]: {value.ToString()} ms";
 
                 var pingHealth = PingHealthEnum.Bad;
 
@@ -313,7 +313,7 @@ namespace PingoMeter
                                 var statusName = GetIPStatusName(reply.Status);
                                 notifyIcon.Text = "Status: " + statusName;
 
-                                
+
 
                                 if (alarmStatus != AlarmEnum.ConnectionLost)
                                 {
