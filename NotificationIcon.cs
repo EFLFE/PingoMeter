@@ -156,16 +156,19 @@ namespace PingoMeter
             }
             else
             {
-                offlineTimer = null;
-
                 notifyIcon.Text = $"Ping [{Config.GetIPName}]: {value.ToString()} ms";
 
+                offlineTimer = null;
                 var pingHealth = PingHealthEnum.Bad;
 
                 if (value < Config.MaxPing / 3)
+                {
                     pingHealth = PingHealthEnum.Good;
+                }
                 else if (value < Config.MaxPing / 2)
+                {
                     pingHealth = PingHealthEnum.Normal;
+                }
 
                 if (Config.UseNumbers)
                 {

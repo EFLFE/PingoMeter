@@ -75,7 +75,7 @@ namespace PingoMeter
             SFXConnectionLost   = _SFXConnectionLost;
             SFXTimeOut          = _SFXTimeOut;
             SFXResumed          = _SFXResumed;
-            OfflineCounter = offlineCounter;
+            OfflineCounter      = offlineCounter;
         }
 
         public static void Reset()
@@ -96,6 +96,7 @@ namespace PingoMeter
             SFXConnectionLost   = NONE_SFX;
             SFXTimeOut          = NONE_SFX;
             SFXResumed          = NONE_SFX;
+            RunOnStartup        = false;
         }
 
         public static void Load()
@@ -176,6 +177,10 @@ namespace PingoMeter
 
                             case nameof(SFXResumed):
                                 SFXResumed = split[1];
+                                break;
+
+                            case nameof(OfflineCounter):
+                                bool.TryParse(split[1], out OfflineCounter);
                                 break;
                         }
                     }
