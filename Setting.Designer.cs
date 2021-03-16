@@ -53,6 +53,7 @@
             this.numbersModeCheckBox = new System.Windows.Forms.CheckBox();
             this.graphColorsGroupBox = new System.Windows.Forms.GroupBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.cbStartupRun = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -70,7 +71,6 @@
             this.label9 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.cbStartupRun = new System.Windows.Forms.CheckBox();
             this.cbOfflineCounter = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.delay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxPing)).BeginInit();
@@ -318,7 +318,6 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage1.Controls.Add(this.cbOfflineCounter);
             this.tabPage1.Controls.Add(this.numbersModeCheckBox);
             this.tabPage1.Controls.Add(this.graphColorsGroupBox);
             this.tabPage1.Controls.Add(this.label1);
@@ -360,11 +359,12 @@
             this.graphColorsGroupBox.Size = new System.Drawing.Size(316, 150);
             this.graphColorsGroupBox.TabIndex = 7;
             this.graphColorsGroupBox.TabStop = false;
-            this.graphColorsGroupBox.Text = "Graph colors and Sound effect";
+            this.graphColorsGroupBox.Text = "Graph colors";
             // 
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Controls.Add(this.cbOfflineCounter);
             this.tabPage2.Controls.Add(this.cbStartupRun);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.groupBox1);
@@ -376,6 +376,16 @@
             this.tabPage2.Size = new System.Drawing.Size(331, 307);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Advanced";
+            // 
+            // cbStartupRun
+            // 
+            this.cbStartupRun.AutoSize = true;
+            this.cbStartupRun.Location = new System.Drawing.Point(6, 280);
+            this.cbStartupRun.Name = "cbStartupRun";
+            this.cbStartupRun.Size = new System.Drawing.Size(159, 19);
+            this.cbStartupRun.TabIndex = 13;
+            this.cbStartupRun.Text = "Run on Windows startup";
+            this.cbStartupRun.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -546,23 +556,13 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // cbStartupRun
-            // 
-            this.cbStartupRun.AutoSize = true;
-            this.cbStartupRun.Location = new System.Drawing.Point(6, 255);
-            this.cbStartupRun.Name = "cbStartupRun";
-            this.cbStartupRun.Size = new System.Drawing.Size(159, 19);
-            this.cbStartupRun.TabIndex = 13;
-            this.cbStartupRun.Text = "Run on Windows startup";
-            this.cbStartupRun.UseVisualStyleBackColor = true;
-            // 
             // cbOfflineCounter
             // 
             this.cbOfflineCounter.AutoSize = true;
-            this.cbOfflineCounter.Location = new System.Drawing.Point(6, 246);
+            this.cbOfflineCounter.Location = new System.Drawing.Point(6, 255);
             this.cbOfflineCounter.Name = "cbOfflineCounter";
             this.cbOfflineCounter.Size = new System.Drawing.Size(132, 19);
-            this.cbOfflineCounter.TabIndex = 9;
+            this.cbOfflineCounter.TabIndex = 14;
             this.cbOfflineCounter.Text = "Offline time counter";
             this.cbOfflineCounter.UseVisualStyleBackColor = true;
             // 
@@ -644,7 +644,7 @@
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Button connectionResumeSFXBtn;
         private System.Windows.Forms.Button connectionLostSFXBtn;
-        private System.Windows.Forms.CheckBox cbOfflineCounter;
         private System.Windows.Forms.CheckBox cbStartupRun;
+        private System.Windows.Forms.CheckBox cbOfflineCounter;
     }
 }

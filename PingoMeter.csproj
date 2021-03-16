@@ -66,6 +66,7 @@
     <Compile Include="Setting.Designer.cs">
       <DependentUpon>Setting.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utils.cs" />
     <Compile Include="vendor\StartupCreator\StartupCreator.cs" />
     <Compile Include="vendor\StartupCreator\StartupViaRegistry.cs" />
     <Compile Include="vendor\StartupCreator\StartupViaLink.cs" />

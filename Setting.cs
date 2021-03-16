@@ -27,6 +27,13 @@ namespace PingoMeter
             connectionLostSFXBtn.MouseDown   += (s, e) => ClearSFX(connectionLostSFXBtn, e);
             connectionResumeSFXBtn.MouseDown += (s, e) => ClearSFX(connectionResumeSFXBtn, e);
 
+            if (Utils.IsWindows8Next())
+            {
+                cbStartupRun.Enabled = false;
+                cbStartupRun.Visible = false;
+                Config.RunOnStartup = false;
+            }
+
             loaded = true;
         }
 

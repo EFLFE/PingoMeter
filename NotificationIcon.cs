@@ -399,25 +399,29 @@ namespace PingoMeter
         private void MenuSetting(object sender, EventArgs e)
         {
             var dlgResult = new Setting().ShowDialog();
+
             if (dlgResult == DialogResult.OK)
             {
-                if (Config.RunOnStartup)
+                if (Utils.IsWindows8Next()) // bug in win8+ for startup
                 {
-                    if (!startupManager.IsInStartup())
+                    if (Config.RunOnStartup)
                     {
-                        if (!startupManager.RunOnStartup())
+                        if (!startupManager.IsInStartup())
                         {
-                            MessageBox.Show("Adding to autorun is failed!");
+                            if (!startupManager.RunOnStartup())
+                            {
+                                MessageBox.Show("Adding to autorun is failed!");
+                            }
                         }
                     }
-                }
-                else
-                {
-                    if (startupManager.IsInStartup())
+                    else
                     {
-                        if (!startupManager.RemoveFromStartup())
+                        if (startupManager.IsInStartup())
                         {
-                            MessageBox.Show("Failed on disabling autorun!");
+                            if (!startupManager.RemoveFromStartup())
+                            {
+                                MessageBox.Show("Failed on disabling autorun!");
+                            }
                         }
                     }
                 }
