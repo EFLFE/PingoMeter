@@ -53,6 +53,7 @@
             this.numbersModeCheckBox = new System.Windows.Forms.CheckBox();
             this.graphColorsGroupBox = new System.Windows.Forms.GroupBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.cbOfflineCounter = new System.Windows.Forms.CheckBox();
             this.cbStartupRun = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
@@ -65,13 +66,19 @@
             this.alarmTimeOut = new System.Windows.Forms.CheckBox();
             this.alarmResumed = new System.Windows.Forms.CheckBox();
             this.alarmConnectionLost = new System.Windows.Forms.CheckBox();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.loggingTabPage = new System.Windows.Forms.TabPage();
+            this.LoggingGroupBox = new System.Windows.Forms.GroupBox();
+            this.LogPathTextBox = new System.Windows.Forms.TextBox();
+            this.LogPathPickerButton = new System.Windows.Forms.Button();
+            this.label12 = new System.Windows.Forms.Label();
+            this.EnableLoggingCheckbox = new System.Windows.Forms.CheckBox();
+            this.aboutTabPage = new System.Windows.Forms.TabPage();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.labelVersion = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
-            this.cbOfflineCounter = new System.Windows.Forms.CheckBox();
+            this.ExploreButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.delay)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.maxPing)).BeginInit();
             this.tabControl1.SuspendLayout();
@@ -80,7 +87,9 @@
             this.tabPage2.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
-            this.tabPage3.SuspendLayout();
+            this.loggingTabPage.SuspendLayout();
+            this.LoggingGroupBox.SuspendLayout();
+            this.aboutTabPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -307,10 +316,11 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.loggingTabPage);
+            this.tabControl1.Controls.Add(this.aboutTabPage);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
-            this.tabControl1.Padding = new System.Drawing.Point(30, 3);
+            this.tabControl1.Padding = new System.Drawing.Point(20, 3);
             this.tabControl1.SelectedIndex = 0;
             this.tabControl1.Size = new System.Drawing.Size(339, 335);
             this.tabControl1.TabIndex = 12;
@@ -376,6 +386,16 @@
             this.tabPage2.Size = new System.Drawing.Size(331, 307);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Advanced";
+            // 
+            // cbOfflineCounter
+            // 
+            this.cbOfflineCounter.AutoSize = true;
+            this.cbOfflineCounter.Location = new System.Drawing.Point(6, 255);
+            this.cbOfflineCounter.Name = "cbOfflineCounter";
+            this.cbOfflineCounter.Size = new System.Drawing.Size(132, 19);
+            this.cbOfflineCounter.TabIndex = 14;
+            this.cbOfflineCounter.Text = "Offline time counter";
+            this.cbOfflineCounter.UseVisualStyleBackColor = true;
             // 
             // cbStartupRun
             // 
@@ -504,18 +524,81 @@
             this.alarmConnectionLost.Text = "Connection lost";
             this.alarmConnectionLost.UseVisualStyleBackColor = true;
             // 
-            // tabPage3
+            // loggingTabPage
             // 
-            this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage3.Controls.Add(this.linkLabel1);
-            this.tabPage3.Controls.Add(this.labelVersion);
-            this.tabPage3.Controls.Add(this.label9);
-            this.tabPage3.Controls.Add(this.pictureBox1);
-            this.tabPage3.Location = new System.Drawing.Point(4, 24);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(331, 307);
-            this.tabPage3.TabIndex = 2;
-            this.tabPage3.Text = "About";
+            this.loggingTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.loggingTabPage.Controls.Add(this.LoggingGroupBox);
+            this.loggingTabPage.Controls.Add(this.EnableLoggingCheckbox);
+            this.loggingTabPage.Location = new System.Drawing.Point(4, 24);
+            this.loggingTabPage.Name = "loggingTabPage";
+            this.loggingTabPage.Padding = new System.Windows.Forms.Padding(10);
+            this.loggingTabPage.Size = new System.Drawing.Size(331, 307);
+            this.loggingTabPage.TabIndex = 3;
+            this.loggingTabPage.Text = "Logging";
+            // 
+            // LoggingGroupBox
+            // 
+            this.LoggingGroupBox.Controls.Add(this.ExploreButton);
+            this.LoggingGroupBox.Controls.Add(this.LogPathTextBox);
+            this.LoggingGroupBox.Controls.Add(this.LogPathPickerButton);
+            this.LoggingGroupBox.Controls.Add(this.label12);
+            this.LoggingGroupBox.Location = new System.Drawing.Point(13, 35);
+            this.LoggingGroupBox.Name = "LoggingGroupBox";
+            this.LoggingGroupBox.Padding = new System.Windows.Forms.Padding(3, 13, 3, 3);
+            this.LoggingGroupBox.Size = new System.Drawing.Size(305, 259);
+            this.LoggingGroupBox.TabIndex = 1;
+            this.LoggingGroupBox.TabStop = false;
+            this.LoggingGroupBox.Text = "Logging Options";
+            // 
+            // LogPathTextBox
+            // 
+            this.LogPathTextBox.Location = new System.Drawing.Point(57, 24);
+            this.LogPathTextBox.Name = "LogPathTextBox";
+            this.LogPathTextBox.Size = new System.Drawing.Size(211, 21);
+            this.LogPathTextBox.TabIndex = 2;
+            // 
+            // LogPathPickerButton
+            // 
+            this.LogPathPickerButton.Location = new System.Drawing.Point(274, 23);
+            this.LogPathPickerButton.Name = "LogPathPickerButton";
+            this.LogPathPickerButton.Size = new System.Drawing.Size(25, 23);
+            this.LogPathPickerButton.TabIndex = 1;
+            this.LogPathPickerButton.Text = "...";
+            this.LogPathPickerButton.UseVisualStyleBackColor = true;
+            this.LogPathPickerButton.Click += new System.EventHandler(this.LogPathPickerButton_Click);
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 27);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(45, 15);
+            this.label12.TabIndex = 0;
+            this.label12.Text = "Log dir";
+            // 
+            // EnableLoggingCheckbox
+            // 
+            this.EnableLoggingCheckbox.AutoSize = true;
+            this.EnableLoggingCheckbox.Location = new System.Drawing.Point(10, 10);
+            this.EnableLoggingCheckbox.Name = "EnableLoggingCheckbox";
+            this.EnableLoggingCheckbox.Size = new System.Drawing.Size(113, 19);
+            this.EnableLoggingCheckbox.TabIndex = 0;
+            this.EnableLoggingCheckbox.Text = "Enable Logging";
+            this.EnableLoggingCheckbox.UseVisualStyleBackColor = true;
+            this.EnableLoggingCheckbox.CheckedChanged += new System.EventHandler(this.EnableLoggingCheckbox_CheckedChanged);
+            // 
+            // aboutTabPage
+            // 
+            this.aboutTabPage.BackColor = System.Drawing.SystemColors.Control;
+            this.aboutTabPage.Controls.Add(this.linkLabel1);
+            this.aboutTabPage.Controls.Add(this.labelVersion);
+            this.aboutTabPage.Controls.Add(this.label9);
+            this.aboutTabPage.Controls.Add(this.pictureBox1);
+            this.aboutTabPage.Location = new System.Drawing.Point(4, 24);
+            this.aboutTabPage.Name = "aboutTabPage";
+            this.aboutTabPage.Size = new System.Drawing.Size(331, 307);
+            this.aboutTabPage.TabIndex = 2;
+            this.aboutTabPage.Text = "About";
             // 
             // linkLabel1
             // 
@@ -556,15 +639,15 @@
             this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             // 
-            // cbOfflineCounter
+            // ExploreButton
             // 
-            this.cbOfflineCounter.AutoSize = true;
-            this.cbOfflineCounter.Location = new System.Drawing.Point(6, 255);
-            this.cbOfflineCounter.Name = "cbOfflineCounter";
-            this.cbOfflineCounter.Size = new System.Drawing.Size(132, 19);
-            this.cbOfflineCounter.TabIndex = 14;
-            this.cbOfflineCounter.Text = "Offline time counter";
-            this.cbOfflineCounter.UseVisualStyleBackColor = true;
+            this.ExploreButton.Location = new System.Drawing.Point(9, 54);
+            this.ExploreButton.Name = "ExploreButton";
+            this.ExploreButton.Size = new System.Drawing.Size(289, 23);
+            this.ExploreButton.TabIndex = 3;
+            this.ExploreButton.Text = "View Log Directory in Explorer";
+            this.ExploreButton.UseVisualStyleBackColor = true;
+            this.ExploreButton.Click += new System.EventHandler(this.ExploreButton_Click);
             // 
             // Setting
             // 
@@ -595,8 +678,12 @@
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
-            this.tabPage3.ResumeLayout(false);
-            this.tabPage3.PerformLayout();
+            this.loggingTabPage.ResumeLayout(false);
+            this.loggingTabPage.PerformLayout();
+            this.LoggingGroupBox.ResumeLayout(false);
+            this.LoggingGroupBox.PerformLayout();
+            this.aboutTabPage.ResumeLayout(false);
+            this.aboutTabPage.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
@@ -629,7 +716,7 @@
         private System.Windows.Forms.CheckBox alarmConnectionLost;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox alarmResumed;
-        private System.Windows.Forms.TabPage tabPage3;
+        private System.Windows.Forms.TabPage aboutTabPage;
         private System.Windows.Forms.LinkLabel linkLabel1;
         private System.Windows.Forms.Label labelVersion;
         private System.Windows.Forms.Label label9;
@@ -646,5 +733,12 @@
         private System.Windows.Forms.Button connectionLostSFXBtn;
         private System.Windows.Forms.CheckBox cbStartupRun;
         private System.Windows.Forms.CheckBox cbOfflineCounter;
+        private System.Windows.Forms.TabPage loggingTabPage;
+        private System.Windows.Forms.CheckBox EnableLoggingCheckbox;
+        private System.Windows.Forms.GroupBox LoggingGroupBox;
+        private System.Windows.Forms.Button LogPathPickerButton;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox LogPathTextBox;
+        private System.Windows.Forms.Button ExploreButton;
     }
 }

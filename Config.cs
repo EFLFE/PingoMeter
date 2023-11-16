@@ -51,14 +51,19 @@ namespace PingoMeter
         /// <summary> Use numbers for the ping instead of a graph. </summary>
         public static bool UseNumbers;
 
-
+        #region Logging options
+        public static bool EnableLogging;
+        public static string LogDirPath;
+        #endregion
 
         static Config() => Reset();
 
-        public static void SetAll(int delay, int maxPing, Color bgColor, Color goodColor, Color normalColor,
-                                  Color badColor, bool runOnStartup, IPAddress address,
-                                  bool alarmConnectionLost, bool alarmTimeOut, bool alarmResumed, bool useNumbers,
-                                  string _SFXConnectionLost, string _SFXTimeOut, string _SFXResumed, bool offlineCounter)
+        public static void SetAll(
+            int delay, int maxPing, Color bgColor, Color goodColor, Color normalColor,
+            Color badColor, bool runOnStartup, IPAddress address,
+            bool alarmConnectionLost, bool alarmTimeOut, bool alarmResumed, bool useNumbers,
+            string _SFXConnectionLost, string _SFXTimeOut, string _SFXResumed, bool offlineCounter,
+            bool enableLogging, string logPath)
         {
             Delay               = delay;
             MaxPing             = maxPing;
@@ -76,6 +81,16 @@ namespace PingoMeter
             SFXTimeOut          = _SFXTimeOut;
             SFXResumed          = _SFXResumed;
             OfflineCounter      = offlineCounter;
+            EnableLogging       = enableLogging;
+            LogDirPath          = logPath;
+
+            if (EnableLogging)
+            {
+                if (!Directory.Exists(LogDirPath))
+                {
+                    Directory.CreateDirectory(LogDirPath);
+                }
+            }
         }
 
         public static void Reset()
@@ -97,6 +112,7 @@ namespace PingoMeter
             SFXTimeOut          = NONE_SFX;
             SFXResumed          = NONE_SFX;
             RunOnStartup        = false;
+            EnableLogging       = false;
         }
 
         public static void Load()
@@ -182,6 +198,14 @@ namespace PingoMeter
                             case nameof(OfflineCounter):
                                 bool.TryParse(split[1], out OfflineCounter);
                                 break;
+
+                            case nameof(EnableLogging):
+                                bool.TryParse(split[1], out EnableLogging);
+                                break;
+
+                            case nameof(LogDirPath):
+                                LogDirPath = split[1];
+                                break;
                         }
                     }
                 }
@@ -235,6 +259,9 @@ namespace PingoMeter
             sb.AppendLine($"{nameof(SFXResumed)} {SFXResumed}");
 
             sb.AppendLine($"{nameof(OfflineCounter)} {OfflineCounter}");
+
+            sb.AppendLine($"{nameof(EnableLogging)} {EnableLogging}");
+            sb.AppendLine($"{nameof(LogDirPath)} {LogDirPath}");
 
             File.WriteAllText(CONF_FILE_NAME, sb.ToString());
         }

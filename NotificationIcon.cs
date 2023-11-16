@@ -1,7 +1,9 @@
-﻿using PingoMeter.vendor;
+﻿using Microsoft.Win32;
+using PingoMeter.vendor;
 using PingoMeter.vendor.StartupCreator;
 
 using System;
+using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Media;
@@ -34,6 +36,10 @@ namespace PingoMeter
         SoundPlayer SFXConnectionLost;
         SoundPlayer SFXTimeOut;
         SoundPlayer SFXResumed;
+
+        IPStatus? previousLogStatus = null;
+        string previousLogMessage = null;
+        DateTimeOffset lastPowerModeChangeTime = DateTimeOffset.MinValue;
 
         enum PingHealthEnum
         {
@@ -84,15 +90,21 @@ namespace PingoMeter
             noneIcon = Icon.FromHandle(hiconOriginal);
             g = Graphics.FromImage(drawable);
             font = new Font("Consolas", 9f, FontStyle.Bold);
-            font100 = new Font("Consolas", 7f, FontStyle.Bold);;
+            font100 = new Font("Consolas", 7f, FontStyle.Bold);
+            WriteLog("Startup", null, $"{Process.GetCurrentProcess().ProcessName} started");
+
+            SystemEvents.PowerModeChanged += SystemEvents_PowerModeChanged;
+
             SetIcon();
         }
 
         ~NotificationIcon()
         {
+            SystemEvents.PowerModeChanged -= SystemEvents_PowerModeChanged;
             DestroyIcon(hicon);
             DestroyIcon(hiconOriginal);
             g.Dispose();
+            WriteLog("Shutdown", null, $"{Process.GetCurrentProcess().ProcessName} shutting down");
         }
 
         public void Run()
@@ -270,7 +282,12 @@ namespace PingoMeter
                     {
                         PingReply reply = p.Send(Config.TheIPAddress, 5000, buffer);
 
-                        switch (reply.Status)
+                        //there is a lower-limit to the configured timeout, so we have to override the timeout process.
+                        var calculatedStatus = (reply.Status == IPStatus.Success && reply.RoundtripTime > Config.MaxPing)
+                            ? IPStatus.TimedOut
+                            : reply.Status;
+
+                        switch (calculatedStatus)
                         {
                             case IPStatus.TimedOut:
                                 DrawGraph(-1L);
@@ -287,6 +304,8 @@ namespace PingoMeter
                                     }
 
                                     alarmStatus = AlarmEnum.TimeOut;
+
+                                    WriteLog(calculatedStatus, $"{ notifyIcon.Text } ({ reply.RoundtripTime }ms)", doRepeat: false);
                                 }
                                 else
                                 {
@@ -306,17 +325,17 @@ namespace PingoMeter
                                         notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", "Ping resumed", ToolTipIcon.Info);
                                 }
 
+                                WriteLog(calculatedStatus, $"Ping resumed ({reply.RoundtripTime}ms)", doRepeat: false);
+
                                 alarmStatus = AlarmEnum.OK;
                                 timeOutAgain = false;
                                 break;
 
                             default:
-
                                 DrawGraph(-1L);
+
                                 var statusName = GetIPStatusName(reply.Status);
                                 notifyIcon.Text = "Status: " + statusName;
-
-
 
                                 if (alarmStatus != AlarmEnum.ConnectionLost)
                                 {
@@ -327,23 +346,40 @@ namespace PingoMeter
                                 }
 
                                 alarmStatus = AlarmEnum.ConnectionLost;
+                                WriteLog(calculatedStatus, "Connection Lost.", doRepeat: false);
                                 break;
                         }
                     }
                     catch (PingException)
                     {
-                        DrawGraph(-1L);
-                        notifyIcon.Text = "Status: Connection lost.";
-
-                        if (alarmStatus != AlarmEnum.ConnectionLost)
+                        //false positives happen on wake.
+                        //check if just woke up
+                        int wakeTimeInMillis = 500;
+                        var utcnow = DateTimeOffset.Now;
+                        if ((utcnow - lastPowerModeChangeTime).TotalMilliseconds < wakeTimeInMillis)
                         {
-                            PlaySound(SFXConnectionLost, Config.SFXConnectionLost);
-
-                            if (Config.AlarmConnectionLost)
-                                notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", "Connection lost", ToolTipIcon.Error);
+                            //just woke up
+                            DrawGraph(-1L);
+                            notifyIcon.Text = "Status: Connection lost?";
+                            WriteLog("Wake", null, $"{Process.GetCurrentProcess().ProcessName} lost connection because PC waking up");
                         }
+                        else
+                        {
+                            DrawGraph(-1L);
+                            notifyIcon.Text = "Status: Connection lost.";
 
-                        alarmStatus = AlarmEnum.ConnectionLost;
+                            if (alarmStatus != AlarmEnum.ConnectionLost)
+                            {
+                                PlaySound(SFXConnectionLost, Config.SFXConnectionLost);
+
+                                if (Config.AlarmConnectionLost)
+                                    notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", "Connection lost", ToolTipIcon.Error);
+                            }
+
+                            alarmStatus = AlarmEnum.ConnectionLost;
+
+                            WriteLog(IPStatus.Unknown, "Connection Lost (PingException).", doRepeat: false);
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -353,6 +389,7 @@ namespace PingoMeter
 
                         notifyIcon.ShowBalloonTip(BALLOON_TIP_TIME_OUT, "PingoMeter", "Error: " + ex.Message, ToolTipIcon.Error);
                         alarmStatus = AlarmEnum.None;
+                        WriteLog(IPStatus.Unknown, $"Error: {ex.Message}", doRepeat: false);
                     }
 
                     Thread.Sleep(Config.Delay);
@@ -503,5 +540,78 @@ namespace PingoMeter
             }
         }
 
+        /// <summary>
+        /// Write into the monthly log-file
+        /// </summary>
+        /// <param name="status">IPStatus object that describes the info.  Will be logged by both IP and text.</param>
+        /// <param name="message">Text message to log. Quotes will be escaped if necessary. Not null.</param>
+        /// <param name="doRepeat">bool to re-log the same message more than once if eg connection is out.</param>
+        private void WriteLog(IPStatus status, string message, bool doRepeat)
+        {
+            // note that we only care if the message is distinct if its UNKNOWN, otherwise we assume all messages are the same.
+            // this lets us add some metadata to the non-error messages without duplication.
+            if (doRepeat || !status.Equals(previousLogStatus) || !(message.Equals(previousLogMessage) || (int)status >= 0)) {
+                previousLogStatus = status;
+                previousLogMessage = message;
+                var eventName = status.ToString();
+                var ipStatusNum = (int)status;
+                WriteLog(eventName, ipStatusNum, message);
+            }
+        }
+
+        /// <summary>
+        /// Write into the monthly log-file
+        /// </summary>
+        /// <param name="ipStatusNum">Event number to log.</param>
+        /// /// <param name="eventName">Event name to log.  Will match the .</param>
+        /// <param name="message">Text message to log. Quotes will be escaped if necessary. Not null.</param>
+        private void WriteLog(string eventName, int? ipStatusNum, string message)
+        {
+            if (Config.EnableLogging) 
+            {               
+                var now = DateTime.Now;
+                
+                // csv escape
+                // this should probably all be done with a proper CSV package but this project doesn't have any
+                // external package dependencies so I don't want to start now.
+                var messageEscapedCsv = (message.Contains("\"") || message.Contains("\n"))
+                    ? $"\"{message.Replace("\"", "\"\"")}\""
+                    : message;
+
+                if (!Directory.Exists(Config.LogDirPath))
+                {
+                    Directory.CreateDirectory(Config.LogDirPath);
+                }
+
+                var logFilePath = Path.Combine(Config.LogDirPath, $@"{Process.GetCurrentProcess().ProcessName}-{now.Year}-{now.Month}.log.csv");
+                if(!File.Exists(logFilePath))
+                {
+                    string[] headings = { "Date", "Event", "IPStatus", "IPAddress", "Message" };
+                    string headingLine = string.Join(", ", headings);
+                    using (StreamWriter writer = new StreamWriter(logFilePath))
+                    {
+                        writer.WriteLine(headingLine);
+                        writer.Flush();
+                    }
+                }
+                
+                using (StreamWriter writer = new StreamWriter(logFilePath, append:true))
+                {
+                    var date = now.ToString("yyyy-MM-dd HH:mm:ss");
+                    var ipAddressLogEntry = ipStatusNum.HasValue
+                        ? Config.TheIPAddress.ToString()
+                        : string.Empty; //no need to log address for startup/shutdown operations.
+                    string[] body = { date, eventName, ipStatusNum.ToString(), ipAddressLogEntry, messageEscapedCsv };
+                    string bodyLine = string.Join(", ", body);
+                    writer.WriteLine(bodyLine);
+                    writer.Flush();
+                }
+            }
+        }
+
+        private void SystemEvents_PowerModeChanged(object sender, PowerModeChangedEventArgs e)
+        {
+            lastPowerModeChangeTime = DateTimeOffset.Now;
+        }
     }
 }

@@ -34,6 +34,8 @@ namespace PingoMeter
                 Config.RunOnStartup = false;
             }
 
+            InitLoggingGroup();
+
             loaded = true;
         }
 
@@ -55,7 +57,9 @@ namespace PingoMeter
                 _SFXConnectionLost: toolTip1.GetToolTip(connectionLostSFXBtn),
                 _SFXTimeOut: toolTip1.GetToolTip(pingTimeoutSFXBtn),
                 _SFXResumed: toolTip1.GetToolTip(connectionResumeSFXBtn),
-                offlineCounter: cbOfflineCounter.Checked);
+                offlineCounter: cbOfflineCounter.Checked,
+                enableLogging: EnableLoggingCheckbox.Checked,
+                logPath: LogPathTextBox.Text);
         }
 
         private void SyncFromConfig()
@@ -83,6 +87,9 @@ namespace PingoMeter
             SetSoundInfoForButtom(pingTimeoutSFXBtn,      Config.SFXTimeOut);
             SetSoundInfoForButtom(connectionLostSFXBtn,   Config.SFXConnectionLost);
             SetSoundInfoForButtom(connectionResumeSFXBtn, Config.SFXResumed);
+
+            EnableLoggingCheckbox.Checked = Config.EnableLogging;
+            LogPathTextBox.Text = Config.LogDirPath;
         }
 
         private void ClearSFX(Button button, MouseEventArgs mouseEvent)
@@ -226,6 +233,49 @@ namespace PingoMeter
         private void numbersModeCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             graphColorsGroupBox.Visible = !numbersModeCheckBox.Checked;
+        }
+
+        private string DefaultLoggingPath => $@"%LOCALAPPDATA%\{Process.GetCurrentProcess().ProcessName}\Logs";
+
+        private void InitLoggingGroup()
+        {
+            LoggingGroupBox.Visible = EnableLoggingCheckbox.Checked;
+            if (EnableLoggingCheckbox.Checked)
+            {
+                if (string.IsNullOrWhiteSpace(LogPathTextBox.Text))
+                {
+                    string resolvedPath = Path.GetFullPath(Environment.ExpandEnvironmentVariables(DefaultLoggingPath));
+                    LogPathTextBox.Text = resolvedPath;
+                }
+            }
+            else
+            {
+                LogPathTextBox.Text = "";
+            }
+        }
+
+        private void EnableLoggingCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            InitLoggingGroup();
+        }
+
+        private void LogPathPickerButton_Click(object sender, EventArgs e)
+        {
+            using (var fbd = new FolderBrowserDialog())
+            {
+                fbd.RootFolder = Environment.SpecialFolder.LocalApplicationData;
+                DialogResult result = fbd.ShowDialog();
+
+                if (result == DialogResult.OK && !string.IsNullOrWhiteSpace(fbd.SelectedPath))
+                {
+                    LogPathTextBox.Text = fbd.SelectedPath;
+                }
+            }
+        }
+
+        private void ExploreButton_Click(object sender, EventArgs e)
+        {
+            Process.Start("explorer.exe", LogPathTextBox.Text);
         }
     }
 }
